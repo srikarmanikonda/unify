@@ -98,13 +98,13 @@ export default class App extends React.Component {
                 }} onPress={() => this.signup()}>
                   <View
                     style={{ height: '100%', alignItems: 'center', borderRadius: 30, width: '100%', justifyContent: 'center', backgroundColor: '#F3F3F3' }}>
-                    <Text style={{ color: 'black', fontSize: Math.min(20 * rem, 36 * wid), textAlign: 'center', fontWeight: 'bold', fontFamily: 'PoppinsM' }}>Login</Text>
+                    <Text style={{ color: 'black', fontSize: Math.min(20 * rem, 36 * wid), textAlign: 'center', fontWeight: 'bold', fontFamily: 'PoppinsM' }}>Signup</Text>
                   </View>
                 </TouchableOpacity>
                 <View style={{flexDirection:'row', marginTop:5*rem}}>
-                <Text style={{color: 'white', fontSize:15*wid,fontFamily:'PoppinsL', textShadowColor:'black', textShadowRadius:10, textShadowOffset:{width: -1, height: 1}}}>Don’t have an account? </Text>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('Signup')}>
-                  <Text style={{color: '#00FFFF', fontSize:15*wid,fontFamily:'PoppinsM', textShadowColor:'black', textShadowRadius:10, textShadowOffset:{width: -1, height: 1}}}>Sign up</Text>
+                <Text style={{color: 'white', fontSize:15*wid,fontFamily:'PoppinsL', textShadowColor:'black', textShadowRadius:10, textShadowOffset:{width: -1, height: 1}}}>Have an account? </Text>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
+                  <Text style={{color: '#00FFFF', fontSize:15*wid,fontFamily:'PoppinsM', textShadowColor:'black', textShadowRadius:10, textShadowOffset:{width: -1, height: 1}}}>Log in</Text>
                 </TouchableOpacity>
               </View>
               </View>

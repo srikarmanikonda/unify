@@ -1,9 +1,11 @@
 import React from 'react';
-import { Text, TextInput } from 'react-native';
+import { Text, TextInput, Image } from 'react-native';
 import * as Font from 'expo-font';
 import { createStackNavigator } from 'react-navigation-stack'
 import { createAppContainer } from 'react-navigation';
+import { Asset } from 'expo-asset';
 import login from './components/Login';
+import signup from './components/Signup';
 
 
 
@@ -21,6 +23,9 @@ export default class AppContainer extends React.Component {
   }
 
   async componentDidMount() {
+    await Asset.loadAsync([
+      require('./assets/background.jpg'),
+  ]);
     await Font.loadAsync({
       'PoppinsL': require('./assets/fonts/Poppins-Light.ttf'),
       'PoppinsM': require('./assets/fonts/Poppins-Medium.ttf'),
@@ -34,6 +39,9 @@ export default class AppContainer extends React.Component {
     const AppNavigator = createStackNavigator({
       Login: {
         screen: login
+      },
+      Signup: {
+        screen: signup
       },
     },
       {
