@@ -1,8 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, Dimensions, Image, TextInput, TouchableOpacity, Keyboard, ImageBackground, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, Dimensions, Image, TextInput, TouchableOpacity, Keyboard, ImageBackground } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Spinner from 'react-native-loading-spinner-overlay';
-import * as Google from "expo-google-app-auth";
 
 const entireScreenHeight = Dimensions.get('window').height;
 const rem = entireScreenHeight / 380;
@@ -13,7 +12,6 @@ export default class App extends React.Component {
     firstname: '',
     lastname: '',
     loading: false,
-    uname:''
   }
   constructor() {
     super();
@@ -22,42 +20,7 @@ export default class App extends React.Component {
     Text.defaultProps.allowFontScaling = false;
   }
 
-  signInWithGoogle = async () => {
-
-    const result = await Google.logInAsync({
-      iosClientId: "400546646665-8en50d9jelhlcijqkkes4euo0ekhhguh.apps.googleusercontent.com",
-      androidClientId: "400546646665-5cm0tfjdfuejb8r0gncvlr0kg8pfn2m3.apps.googleusercontent.com",
-      scopes: ["profile", "email"]
-    });
-
-    if (result.type === "success") {
-    //  console.log("LoginScreen.js.js 21 | ", result.user.givenName);
-       //after Google login redirect to Profile
-      var uname  = result.user.givenName + " " + result.user.familyName;
-         
-          AsyncStorage.setItem('username', uname);
-          console.log(uname)
-          this.setState({ loading: false });
-          //this.props.navigation.replace('Main')
-
-          this.setState({ loading: false });
-
-   // this.props.navigation.replace("Main", {username:result.user.givenName});
-
-      return result.accessToken;
-    } else {
-      return { cancelled: true };
-    }
-    
-
-};
-
-
   render() {
-    const onPress = () => {
-      this.signInWithGoogle();
-      
-    }
     return (
       <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.container}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false}>
@@ -135,23 +98,17 @@ export default class App extends React.Component {
                 }} onPress={() => this.signup()}>
                   <View
                     style={{ height: '100%', alignItems: 'center', borderRadius: 30, width: '100%', justifyContent: 'center', backgroundColor: '#F3F3F3' }}>
-                    <Text style={{ color: 'black', fontSize: Math.min(20 * rem, 36 * wid), textAlign: 'center', fontWeight: 'bold', fontFamily: 'PoppinsM' }}>Login</Text>
+                    <Text style={{ color: 'black', fontSize: Math.min(20 * rem, 36 * wid), textAlign: 'center', fontWeight: 'bold', fontFamily: 'PoppinsM' }}>Signup</Text>
                   </View>
-                  <TouchableOpacity onPress={onPress}>
-                  <Text style={styles.link}>Sign in with Google</Text>
                 </TouchableOpacity>
-                </TouchableOpacity>
-                
                 <View style={{flexDirection:'row', marginTop:5*rem}}>
-                <Text style={{color: 'white', fontSize:15*wid,fontFamily:'PoppinsL', textShadowColor:'black', textShadowRadius:10, textShadowOffset:{width: -1, height: 1}}}>Don’t have an account? </Text>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('Signup')}>
-                  <Text style={{color: '#00FFFF', fontSize:15*wid,fontFamily:'PoppinsM', textShadowColor:'black', textShadowRadius:10, textShadowOffset:{width: -1, height: 1}}}>Sign up</Text>
+                <Text style={{color: 'white', fontSize:15*wid,fontFamily:'PoppinsL', textShadowColor:'black', textShadowRadius:10, textShadowOffset:{width: -1, height: 1}}}>Have an account? </Text>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
+                  <Text style={{color: '#00FFFF', fontSize:15*wid,fontFamily:'PoppinsM', textShadowColor:'black', textShadowRadius:10, textShadowOffset:{width: -1, height: 1}}}>Log in</Text>
                 </TouchableOpacity>
               </View>
               </View>
-              
             </View>
-            
             </ImageBackground>
           </View>
         </TouchableWithoutFeedback>
@@ -162,13 +119,6 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  link: {
-    fontWeight: 'bold',
-    color: '#ffffff',
-    fontSize:25*wid,
-    //fontFamily:'WSB',
-    marginTop:'5%'
-  },
   container: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
