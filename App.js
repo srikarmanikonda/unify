@@ -6,6 +6,7 @@ import { createAppContainer } from 'react-navigation';
 import { Asset } from 'expo-asset';
 import login from './components/Login';
 import signup from './components/Signup';
+import main from './components/Main';
 
 
 
@@ -42,6 +43,9 @@ export default class AppContainer extends React.Component {
       },
       Signup: {
         screen: signup
+      },
+      Main: {
+        screen: main
       },
     },
       {
