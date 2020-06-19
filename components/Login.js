@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, Dimensions, Image, TextInput, TouchableOpacity, Keyboard, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, Dimensions, Image, TextInput, TouchableOpacity, Keyboard, ImageBackground, AsyncStorage } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Spinner from 'react-native-loading-spinner-overlay';
+import * as Google from "expo-google-app-auth";
 
 const entireScreenHeight = Dimensions.get('window').height;
 const rem = entireScreenHeight / 380;
@@ -12,6 +13,7 @@ export default class App extends React.Component {
     firstname: '',
     lastname: '',
     loading: false,
+    uname:''
   }
   constructor() {
     super();
@@ -20,7 +22,42 @@ export default class App extends React.Component {
     Text.defaultProps.allowFontScaling = false;
   }
 
+  signInWithGoogle = async () => {
+
+    const result = await Google.logInAsync({
+      iosClientId: "400546646665-8en50d9jelhlcijqkkes4euo0ekhhguh.apps.googleusercontent.com",
+      androidClientId: "400546646665-5cm0tfjdfuejb8r0gncvlr0kg8pfn2m3.apps.googleusercontent.com",
+      scopes: ["profile", "email"]
+    });
+
+    if (result.type === "success") {
+    //  console.log("LoginScreen.js.js 21 | ", result.user.givenName);
+       //after Google login redirect to Profile
+      var uname  = result.user.givenName + " " + result.user.familyName;
+         
+          AsyncStorage.setItem('username', uname);
+          console.log(uname)
+          this.setState({ loading: false });
+          //this.props.navigation.replace('Main')
+
+          this.setState({ loading: false });
+
+   // this.props.navigation.replace("Main", {username:result.user.givenName});
+
+      return result.accessToken;
+    } else {
+      return { cancelled: true };
+    }
+    
+
+};
+
+
   render() {
+    const onPress = () => {
+      this.signInWithGoogle();
+      
+    }
     return (
       <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.container}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false}>
@@ -99,9 +136,15 @@ export default class App extends React.Component {
                     style={{ height: '100%', alignItems: 'center', borderRadius: 30, width: '100%', justifyContent: 'center', backgroundColor: '#F3F3F3' }}>
                     <Text style={{ color: 'black', fontSize: Math.min(25 * rem, 45 * wid), textAlign: 'center', fontWeight: 'bold', fontFamily: 'PoppinsM' }}>Login</Text>
                   </View>
+                  <TouchableOpacity onPress={onPress}>
+                  <Text style={styles.link}>Sign in with Google</Text>
                 </TouchableOpacity>
+                </TouchableOpacity>
+                
               </View>
+              
             </View>
+            
             </ImageBackground>
           </View>
         </TouchableWithoutFeedback>
@@ -112,6 +155,13 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  link: {
+    fontWeight: 'bold',
+    color: '#ffffff',
+    fontSize:25*wid,
+    //fontFamily:'WSB',
+    marginTop:'5%'
+  },
   container: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
