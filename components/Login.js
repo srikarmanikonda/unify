@@ -22,10 +22,12 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.container}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false}>
-          <View style={styles.container}>
+
           <ImageBackground style={styles.container} source={require('../assets/background.jpg')}>
+          <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.container}>
+          <View style={styles.container}>
+
             <Spinner
               visible={this.state.loading}
               textContent={'Logging In...'}
@@ -95,7 +97,7 @@ export default class App extends React.Component {
                   shadowRadius: 3.65,
 
                   elevation: 8,
-                }} onPress={() => this.signup()}>
+                }} onPress={() => this.props.navigation.navigate('Main')}>
                   <View
                     style={{ height: '100%', alignItems: 'center', borderRadius: 30, width: '100%', justifyContent: 'center', backgroundColor: '#F3F3F3' }}>
                     <Text style={{ color: 'black', fontSize: Math.min(20 * rem, 36 * wid), textAlign: 'center', fontWeight: 'bold', fontFamily: 'PoppinsM' }}>Login</Text>
@@ -109,10 +111,13 @@ export default class App extends React.Component {
               </View>
               </View>
             </View>
+            </View>
+            </KeyboardAvoidingView >
             </ImageBackground>
-          </View>
+
+
         </TouchableWithoutFeedback>
-      </KeyboardAvoidingView >
+
     );
 
   }
@@ -124,7 +129,6 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#DAF8FF'
   },
   spinnerTextStyle: {
     color: '#FFF',
