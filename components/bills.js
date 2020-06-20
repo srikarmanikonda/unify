@@ -68,7 +68,7 @@ export default class App extends React.Component {
                   </View>
                 </View>
               )}
-              keyExtractor={(item) => item.billId}
+              keyExtractor={(item) => item.bill_id}
             />
           </View>
         </View>
