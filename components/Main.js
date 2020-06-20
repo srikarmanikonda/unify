@@ -4,10 +4,12 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Spinner from 'react-native-loading-spinner-overlay';
 
+// used for scaling
 const entireScreenHeight = Dimensions.get('window').height;
 const rem = entireScreenHeight / 380;
 const entireScreenWidth = Dimensions.get('window').width;
 const wid = entireScreenWidth / 380;
+
 export default class App extends React.Component {
   constructor() {
     super();
@@ -38,7 +40,7 @@ export default class App extends React.Component {
                     shadowRadius: 3.65,
 
                     elevation: 8,
-                  }} onPress={() => this.props.navigation.navigate('Add')}>
+                  }} onPress={() => this.props.navigation.navigate('Research')}>
                     <View
                       style={{ height: '100%', alignItems: 'center', borderRadius: 20, width: '100%', justifyContent: 'center', backgroundColor: '#3773BB' }}>
                       <View style={{ flex: 0.2, width: '100%' }}></View>
@@ -65,7 +67,7 @@ export default class App extends React.Component {
                     shadowRadius: 3.65,
 
                     elevation: 8,
-                  }} onPress={() => this.props.navigation.navigate('Add')}>
+                  }} onPress={() => this.props.navigation.navigate('Forum')}>
                     <View
                       style={{ height: '100%', alignItems: 'center', borderRadius: 20, width: '100%', justifyContent: 'center', backgroundColor: '#B22234' }}>
                       <View style={{ flex: 0.2, width: '100%' }}></View>
@@ -94,7 +96,7 @@ export default class App extends React.Component {
                     shadowRadius: 3.65,
 
                     elevation: 8,
-                  }} onPress={() => this.props.navigation.navigate('Add')}>
+                  }} onPress={() => this.props.navigation.navigate('Bill')}>
                     <View
                       style={{ height: '100%', alignItems: 'center', borderRadius: 20, width: '100%', justifyContent: 'center', backgroundColor: '#B22234' }}>
                       <View style={{ flex: 0.2, width: '100%' }}></View>
@@ -121,7 +123,7 @@ export default class App extends React.Component {
                     shadowRadius: 3.65,
 
                     elevation: 8,
-                  }} onPress={() => this.props.navigation.navigate('Add')}>
+                  }} onPress={() => this.props.navigation.navigate('Bill')}>
                     <View
                       style={{ height: '100%', alignItems: 'center', borderRadius: 20, width: '100%', justifyContent: 'center', backgroundColor: '#3773BB' }}>
                       <View style={{ flex: 0.2, width: '100%' }}></View>

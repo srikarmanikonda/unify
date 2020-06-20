@@ -3,10 +3,12 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback,
 import { LinearGradient } from 'expo-linear-gradient';
 import Spinner from 'react-native-loading-spinner-overlay';
 
+// used for scaling
 const entireScreenHeight = Dimensions.get('window').height;
 const rem = entireScreenHeight / 380;
 const entireScreenWidth = Dimensions.get('window').width;
 const wid = entireScreenWidth / 380;
+
 export default class App extends React.Component {
   state = {
     firstname: '',
