@@ -9,6 +9,8 @@ import signup from './components/Signup';
 import main from './components/Main';
 import research from './components/Research';
 import loading from './components/Loading';
+import bills from './components/bills'
+import voting from './components/voting'
 
 
 import * as firebase from 'firebase';
@@ -69,6 +71,13 @@ export default class AppContainer extends React.Component {
       Loading: {
         screen: loading
       },
+      Bills:{
+        screen:bills
+      },
+      Voting:{
+        screen:voting
+      }
+
     },
       {
         initialRouteName: 'Login',
