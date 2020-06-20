@@ -163,10 +163,16 @@ export default class App extends React.Component {
   }
   vote = (name, type) => {
     name = name.split(" ")
+    if (name.length == 3){
     name = name[0].length != 2 ? name[0] : name[1] + " " + name[name.length-1]
+    console.log(name[0])
+    }
+    else{
+      name = name[0] + " " + name[1]
+    }
     var id = officials[name]
     console.log(id)
-    console.log(type)
+    console.log(name)
   }
   render() {
     return (

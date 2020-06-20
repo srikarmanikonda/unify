@@ -15,9 +15,6 @@ export default class Loading extends React.Component {
           <Image
             style={{ flex: 1, resizeMode: 'cover', width: undefined, height: undefined }}
             source={require('../assets/splash.png')}
-            onLoadEnd={() => {
-              SplashScreen.hide(); // Image is fully presented, instruct SplashScreen to hide
-            }}
             fadeDuration={0}
           />
         </View>

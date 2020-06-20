@@ -36,7 +36,7 @@ export default class AppContainer extends React.Component {
 
   constructor() {
     //chat.observeAuth();
-    SplashScreen.preventAutoHide();
+    //SplashScreen.preventAutoHide();
     super();
     Text.defaultProps = Text.defaultProps || {};
     // Ignore dynamic type scaling on iOS
