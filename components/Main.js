@@ -94,7 +94,7 @@ export default class App extends React.Component {
                     shadowRadius: 3.65,
 
                     elevation: 8,
-                  }} onPress={() => this.props.navigation.navigate('bills')}>
+                  }} onPress={() => this.props.navigation.navigate('Bills')}>
                     <View
                       style={{ height: '100%', alignItems: 'center', borderRadius: 20, width: '100%', justifyContent: 'center', backgroundColor: '#B22234' }}>
                       <View style={{ flex: 0.2, width: '100%' }}></View>
@@ -121,7 +121,7 @@ export default class App extends React.Component {
                     shadowRadius: 3.65,
 
                     elevation: 8,
-                  }} onPress={() => this.props.navigation.navigate('bills')}>
+                  }} onPress={() => this.props.navigation.navigate('Voting')}>
                     <View
                       style={{ height: '100%', alignItems: 'center', borderRadius: 20, width: '100%', justifyContent: 'center', backgroundColor: '#3773BB' }}>
                       <View style={{ flex: 0.2, width: '100%' }}></View>
