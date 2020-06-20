@@ -5,10 +5,12 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import * as Google from "expo-google-app-auth";
 import * as firebase from 'firebase';
 
+// used for scaling
 const entireScreenHeight = Dimensions.get('window').height;
 const rem = entireScreenHeight / 380;
 const entireScreenWidth = Dimensions.get('window').width;
 const wid = entireScreenWidth / 380;
+
 export default class App extends React.Component {
   state = {
     password: '',
@@ -53,7 +55,7 @@ handleLogin = () => {
     .auth()
     .signInWithEmailAndPassword(uname, password)
     .then(() => this.props.navigation.navigate('Main'), AsyncStorage.setItem('username', uname))
-    .catch(error => console.log(error.message ))
+    .catch(error => alert(error.message))
 }
 
 
@@ -63,9 +65,10 @@ handleLogin = () => {
       
     }
     return (
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false}>
+
 
           <ImageBackground style={styles.container} source={require('../assets/background.jpg')}>
+                    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false}>
           <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.container}>
           <View style={styles.container}>
 
@@ -145,7 +148,8 @@ handleLogin = () => {
                     <Text style={{ color: 'black', fontSize: Math.min(20 * rem, 36 * wid), textAlign: 'center', fontWeight: 'bold', fontFamily: 'PoppinsM' }}>Login</Text>
                     
                   </View>
-                  <TouchableOpacity onPress={onPress}>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={onPress}>
                   <Text style={styles.link}>Sign in with Google</Text>
                 </TouchableOpacity>
                 <View style={{flexDirection:'row', marginTop:5*rem}}>
@@ -154,10 +158,6 @@ handleLogin = () => {
                   <Text style={{color: '#00FFFF', fontSize:15*wid,fontFamily:'PoppinsM', textShadowColor:'black', textShadowRadius:10, textShadowOffset:{width: -1, height: 1}}}>Sign up</Text>
                 </TouchableOpacity>
               </View>
-
-
-
-                </TouchableOpacity>
                 
      
               </View>
@@ -165,10 +165,10 @@ handleLogin = () => {
             </View>
             </View>
             </KeyboardAvoidingView >
+            </TouchableWithoutFeedback>
             </ImageBackground>
 
 
-        </TouchableWithoutFeedback>
 
     );
 

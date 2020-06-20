@@ -7,6 +7,7 @@ import { Asset } from 'expo-asset';
 import login from './components/Login';
 import signup from './components/Signup';
 import main from './components/Main';
+import research from './components/Research';
 import loading from './components/Loading';
 import bills from './components/bills'
 import voting from './components/voting'
@@ -48,9 +49,11 @@ export default class AppContainer extends React.Component {
     });
     this.setState({ assetsLoaded: true })
   }
+
+
   render() {
     if (!this.state.assetsLoaded) {
-      return null;
+      return null; // wait until fonts and images are loaded
     }
     const AppNavigator = createStackNavigator({
       Login: {
@@ -61,6 +64,9 @@ export default class AppContainer extends React.Component {
       },
       Main: {
         screen: main
+      },
+      Research: {
+        screen: research
       },
       Loading: {
         screen: loading
