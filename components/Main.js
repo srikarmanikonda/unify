@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback,
 import { LinearGradient } from 'expo-linear-gradient';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Spinner from 'react-native-loading-spinner-overlay';
+import CountDown from 'react-native-countdown-component';
 
 // used for scaling
 const entireScreenHeight = Dimensions.get('window').height;
@@ -23,6 +24,17 @@ export default class App extends React.Component {
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false}>
         <ImageBackground style={styles.container} source={require('../assets/background.jpg')}>
           <View style={styles.container}>
+          <CountDown
+           until={11750000}
+           size={38}
+           style = {{top:rem*70}}
+           onFinish={() => alert('Its election day! Go vote!')}
+           digitStyle={{backgroundColor: '#FFF'}}
+           digitTxtStyle={{color: '#B22234'}}
+           timeToShow={['D','H','M', 'S']}
+           timeLabels={{d:'days',h:'hrs',m: 'mins', s: 'secs'}}
+           timeLabelStyle = {{color:'#3773BB'}}
+         />
             <View style={{ flex: 1, width: '85%', marginTop: getStatusBarHeight(), }}>
             </View>
             <View style={{ flex: 0.5, width: '100%' }}></View>
