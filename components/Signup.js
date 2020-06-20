@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, Dimensions, Image, TextInput, TouchableOpacity, Keyboard, ImageBackground } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Spinner from 'react-native-loading-spinner-overlay';
+import * as firebase from 'firebase';
 
 // used for scaling
 const entireScreenHeight = Dimensions.get('window').height;
@@ -11,8 +12,8 @@ const wid = entireScreenWidth / 380;
 
 export default class App extends React.Component {
   state = {
-    firstname: '',
-    lastname: '',
+    uname: '',
+    password: '',
     loading: false,
   }
   constructor() {
@@ -20,6 +21,15 @@ export default class App extends React.Component {
     Text.defaultProps = Text.defaultProps || {};
     // Ignore dynamic type scaling on iOS
     Text.defaultProps.allowFontScaling = false;
+  }
+
+  handleSignUp = () => {
+    console.log(this.state.uname,this.state.password)
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(this.state.uname, this.state.password)
+      .then(() => this.props.navigation.replace('Login'))
+      .catch(error => console.log(error.message ))
   }
 
   render() {
@@ -55,10 +65,10 @@ export default class App extends React.Component {
                     style={{ fontSize: 10 * rem, width: '95%', height: '100%', marginLeft: '5%', fontFamily: 'PoppinsL' }}
                     autoCapitalize='none'
                     autoCompleteType='off'
-                    placeholder="Username"
+                    placeholder="Email"
                     placeholderTextColor="#4F4F4F"
                     keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
-                    onChangeText={(value) => this.setState({ firstname: value })}
+                    onChangeText={(value) => this.setState({ uname: value })}
                     value={this.state.username}
 
                   /></View>
@@ -78,7 +88,7 @@ export default class App extends React.Component {
                     placeholder="Password"
                     placeholderTextColor="#4F4F4F"
                     keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
-                    onChangeText={(value) => this.setState({ lastname: value })}
+                    onChangeText={(value) => this.setState({ password: value })}
                     value={this.state.password}
                     secureTextEntry={true}
 
@@ -99,7 +109,7 @@ export default class App extends React.Component {
                   shadowRadius: 3.65,
 
                   elevation: 8,
-                }} onPress={() => this.signup()}>
+                }} onPress={() => this.handleSignUp()}>
                   <View
                     style={{ height: '100%', alignItems: 'center', borderRadius: 30, width: '100%', justifyContent: 'center', backgroundColor: '#F3F3F3' }}>
                     <Text style={{ color: 'black', fontSize: Math.min(20 * rem, 36 * wid), textAlign: 'center', fontWeight: 'bold', fontFamily: 'PoppinsM' }}>Signup</Text>

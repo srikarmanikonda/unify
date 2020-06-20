@@ -1,7 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, Dimensions, Image, TextInput, TouchableOpacity, Keyboard, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, Dimensions, Image, TextInput, TouchableOpacity, Keyboard, ImageBackground, AsyncStorage } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Spinner from 'react-native-loading-spinner-overlay';
+import * as Google from "expo-google-app-auth";
+import * as firebase from 'firebase';
 
 // used for scaling
 const entireScreenHeight = Dimensions.get('window').height;
@@ -11,9 +13,9 @@ const wid = entireScreenWidth / 380;
 
 export default class App extends React.Component {
   state = {
-    firstname: '',
-    lastname: '',
+    password: '',
     loading: false,
+    uname:''
   }
   constructor() {
     super();
@@ -22,7 +24,46 @@ export default class App extends React.Component {
     Text.defaultProps.allowFontScaling = false;
   }
 
+  signInWithGoogle = async () => {
+
+    const result = await Google.logInAsync({
+      iosClientId: "400546646665-8en50d9jelhlcijqkkes4euo0ekhhguh.apps.googleusercontent.com",
+      androidClientId: "400546646665-5cm0tfjdfuejb8r0gncvlr0kg8pfn2m3.apps.googleusercontent.com",
+      scopes: ["profile", "email"]
+    });
+
+    if (result.type === "success") {
+    //  console.log("LoginScreen.js.js 21 | ", result.user.givenName);
+       //after Google login redirect to Profile
+      var uname  = result.user.givenName + " " + result.user.familyName;
+          AsyncStorage.setItem('username', uname);
+          this.props.navigation.replace('Main')
+
+   // this.props.navigation.replace("Main", {username:result.user.givenName});
+
+      return result.accessToken;
+    } else {
+      return { cancelled: true };
+    }
+    
+
+};
+
+handleLogin = () => {
+  const { uname, password } = this.state
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(uname, password)
+    .then(() => this.props.navigation.navigate('Main'), AsyncStorage.setItem('username', uname))
+    .catch(error => console.log(error.message ))
+}
+
+
   render() {
+    const onPress = () => {
+      this.signInWithGoogle();
+      
+    }
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false}>
 
@@ -55,11 +96,11 @@ export default class App extends React.Component {
                     style={{ fontSize: 10 * rem, width: '95%', height: '100%', marginLeft: '5%', fontFamily: 'PoppinsL' }}
                     autoCapitalize='none'
                     autoCompleteType='off'
-                    placeholder="Username"
+                    placeholder="Email"
                     placeholderTextColor="#4F4F4F"
                     keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
-                    onChangeText={(value) => this.setState({ firstname: value })}
-                    value={this.state.username}
+                    onChangeText={(value) => this.setState({ uname: value })}
+                    value={this.state.uname}
 
                   /></View>
                 <View style={{ width: '100%', flex: 1.25 }}></View>
@@ -78,7 +119,7 @@ export default class App extends React.Component {
                     placeholder="Password"
                     placeholderTextColor="#4F4F4F"
                     keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
-                    onChangeText={(value) => this.setState({ lastname: value })}
+                    onChangeText={(value) => this.setState({ password: value })}
                     value={this.state.password}
                     secureTextEntry={true}
 
@@ -99,11 +140,15 @@ export default class App extends React.Component {
                   shadowRadius: 3.65,
 
                   elevation: 8,
-                }} onPress={() => this.props.navigation.navigate('Main')}>
+                }} onPress={() => this.handleLogin()}>
+
                   <View
                     style={{ height: '100%', alignItems: 'center', borderRadius: 30, width: '100%', justifyContent: 'center', backgroundColor: '#F3F3F3' }}>
                     <Text style={{ color: 'black', fontSize: Math.min(20 * rem, 36 * wid), textAlign: 'center', fontWeight: 'bold', fontFamily: 'PoppinsM' }}>Login</Text>
+                    
                   </View>
+                  <TouchableOpacity onPress={onPress}>
+                  <Text style={styles.link}>Sign in with Google</Text>
                 </TouchableOpacity>
                 <View style={{flexDirection:'row', marginTop:5*rem}}>
                 <Text style={{color: 'white', fontSize:15*wid,fontFamily:'PoppinsL', textShadowColor:'black', textShadowRadius:10, textShadowOffset:{width: -1, height: 1}}}>Don’t have an account? </Text>
@@ -111,7 +156,14 @@ export default class App extends React.Component {
                   <Text style={{color: '#00FFFF', fontSize:15*wid,fontFamily:'PoppinsM', textShadowColor:'black', textShadowRadius:10, textShadowOffset:{width: -1, height: 1}}}>Sign up</Text>
                 </TouchableOpacity>
               </View>
+
+
+
+                </TouchableOpacity>
+                
+     
               </View>
+              
             </View>
             </View>
             </KeyboardAvoidingView >
@@ -126,6 +178,13 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  link: {
+    fontWeight: 'bold',
+    color: '#ffffff',
+    fontSize:20*wid,
+    //fontFamily:'WSB',
+    marginTop:'5%'
+  },
   container: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,

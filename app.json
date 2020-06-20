@@ -22,7 +22,18 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.rguptavh.unify",
+      "buildNumber": "1.0.0",
+      "config":{
+        "googleSignIn":{
+          "reserveClientId":"com.googleusercontent.apps.400546646665-8en50d9jelhlcijqkkes4euo0ekhhguh"
+        }
+      }
+    },
+    "android": {
+      "package": "com.rguptavh.unify",
+      "versionCode": 1
     }
   }
 }
