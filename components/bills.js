@@ -3,7 +3,6 @@ import { FlatList,StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithout
 import { LinearGradient } from 'expo-linear-gradient';
 import { List, ListItem, SearchBar } from "react-native-elements";
 global.data = []
-global.bills = null
 const entireScreenHeight = Dimensions.get('window').height;
 const rem = entireScreenHeight / 380;
 const entireScreenWidth = Dimensions.get('window').width;
@@ -11,9 +10,8 @@ const wid = entireScreenWidth / 380;
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-
+//I shabatted rahul if u see this in the morining please help. idk what im even doing in terms of this
     this.state = {
-      data:global.bills
     };
   }
   _renderMyKeyExtractor=(item,index)=>item.id.toString();
@@ -47,11 +45,11 @@ console.log(global.bills)
       <View style={styles.container}>
       <FlatList
 style={{marginTop:200}}
-data={this.state.data}
+data={global.data}
 renderItem={({item})=>(
 <View style={{justifyContent:'center',marginBottom:10}}>
 <Text style={{backgroundColor:'blue',color:'white',padding:10,width:Dimensions.get('window').width}}>
-{global.bills.short_title}
+{global.data}
 </Text>
 </View>
 )}
