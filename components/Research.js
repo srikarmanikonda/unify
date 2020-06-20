@@ -64,11 +64,40 @@ export default class App extends React.Component {
       // Center the map on the location we just fetched.
     }
   }
+  getofficials = async (latitude, longitude) => {
+    var address = await Location.reverseGeocodeAsync({ latitude: latitude, longitude: longitude });
+    address = address[0]
+    address = address.name + "," + address.city + ", " + address.region + " " + address.postalCode;
+    console.log(address)
+    const Http = new XMLHttpRequest();
+    const url = 'https://www.googleapis.com/civicinfo/v2/representatives';
+    var data = "?address=" + address + "&roles=legislatorUpperBody&roles=legislatorLowerBody" + "&key=AIzaSyA1E3rJw3phS6Vf1UCGYya3_eVl1TfSKjI";
+    Http.open("GET", String(url + data));
+    Http.send();
+    var response;
+    Http.onreadystatechange = (e) => {
+      response = Http.responseText;
+      if (Http.readyState == 4) {
+        response = JSON.parse(response)
+        let officials = []
+        for (const item of response.offices) {
+          if (item.name == 'U.S. Senator' || item.name == 'U.S. Representative') {
+            for (const indice of item.officialIndices) {
+              officials.push([response.officials[indice], item.name])
+            }
+          }
+        }
+        this.setState({ officials: officials })
+        console.log(officials)
+      }
+      // Center the map on the location we just fetched.
+    }
 
+  }
   officials = (official, type) => {
     console.log(official.photoUrl)
     return (
-      <View style={[styles.card, { backgroundColor: official.party == 'Democratic Party' ? '#3773BB' : '#B22234' }]}>
+      <View key={official.name} style={[styles.card, { backgroundColor: official.party == 'Democratic Party' ? '#3773BB' : official.party == 'Republican Party' ? '#B22234' : '#cbcdd1' }]}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <View style={{ borderBottomColor: 'black', borderBottomWidth: 4 }}>
             <Text style={{ fontFamily: 'PoppinsM', fontSize: Math.min(15 * rem, 27 * wid) }}>{official.name}</Text>
@@ -82,33 +111,33 @@ export default class App extends React.Component {
           <View style={{ flex: 0.1 }}></View>
           <View style={{ flex: 1.25, height: '100%' }}>
             <View style={{ flex: 3 }}>
-            <View>
-              <Text style={{ fontFamily: 'PoppinsM', fontSize: Math.min(10 * rem, 18 * wid) }}>{type}</Text>
+              <View>
+                <Text style={{ fontFamily: 'PoppinsM', fontSize: Math.min(10 * rem, 18 * wid) }}>{type}</Text>
+              </View>
+              <Text style={{ fontFamily: 'PoppinsL', fontSize: Math.min(10 * rem, 18 * wid) }}>{official.phones[0]}</Text>
+              <TouchableOpacity>
+                <Text style={{ fontFamily: 'PoppinsL', fontSize: Math.min(10 * rem, 18 * wid) }}>View Site</Text>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Text style={{ fontFamily: 'PoppinsL', fontSize: Math.min(10 * rem, 18 * wid) }}>View Vote History</Text>
+              </TouchableOpacity>
             </View>
-            <Text style={{ fontFamily: 'PoppinsL', fontSize: Math.min(10 * rem, 18 * wid) }}>{official.phones[0]}</Text>
-            <TouchableOpacity>
-              <Text style={{ fontFamily: 'PoppinsL', fontSize: Math.min(10 * rem, 18 * wid) }}>View Site</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={{ fontFamily: 'PoppinsL', fontSize: Math.min(10 * rem, 18 * wid) }}>View Vote History</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{ flex: 1, alignSelf: 'flex-end', width: '100%', flexDirection: 'row', alignItems: 'center' }}>
-            <TouchableOpacity style={{ flex: 1, width: '100%' }}>
-              <Image source={require('../assets/youtube.png')} style={{ width: '100%', height: '100%', flex: 1 }} resizeMode="contain"></Image>
-            </TouchableOpacity>
-            <View style={{ flex: 0.15 }}></View>
-            <TouchableOpacity style={{ flex: 1, width: '100%' }}>
-              <Image source={require('../assets/facebook.png')} style={{ width: '100%', height: '100%', flex: 1 }} resizeMode="contain"></Image>
-            </TouchableOpacity>
-            <View style={{ flex: 0.15 }}></View>
-            <TouchableOpacity style={{ flex: 1, width: '100%' }}>
-              <Image source={require('../assets/twitter.png')} style={{ width: '100%', height: '100%', flex: 1 }} resizeMode="contain"></Image>
-            </TouchableOpacity>
+            <View style={{ flex: 1, alignSelf: 'flex-end', width: '100%', flexDirection: 'row', alignItems: 'center' }}>
+              <TouchableOpacity style={{ flex: 1, width: '100%' }}>
+                <Image source={require('../assets/youtube.png')} style={{ width: '100%', height: '100%', flex: 1 }} resizeMode="contain"></Image>
+              </TouchableOpacity>
+              <View style={{ flex: 0.15 }}></View>
+              <TouchableOpacity style={{ flex: 1, width: '100%' }}>
+                <Image source={require('../assets/facebook.png')} style={{ width: '100%', height: '100%', flex: 1 }} resizeMode="contain"></Image>
+              </TouchableOpacity>
+              <View style={{ flex: 0.15 }}></View>
+              <TouchableOpacity style={{ flex: 1, width: '100%' }}>
+                <Image source={require('../assets/twitter.png')} style={{ width: '100%', height: '100%', flex: 1 }} resizeMode="contain"></Image>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
-      <View style={{ flex: 0.1 }}></View>
+        <View style={{ flex: 0.1 }}></View>
       </View >
     );
   }
@@ -120,6 +149,7 @@ export default class App extends React.Component {
           ref={map => this.map = map}
           initialRegion={this.state.mapRegion}
           style={styles.container}
+          onPress={(coordinate) => { this.getofficials(coordinate.nativeEvent.coordinate.latitude, coordinate.nativeEvent.coordinate.longitude) }}
         >
           {this.state.location != null ? <MapView.Marker coordinate={this.state.location} title="Your Location" pinColor='blue'></MapView.Marker> : null}
         </MapView>
