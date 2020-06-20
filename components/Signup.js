@@ -28,7 +28,7 @@ export default class App extends React.Component {
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.uname, this.state.password)
-      .then(() => this.props.navigation.replace('Login'))
+      .then(() => this.props.navigation.navigate('Login'), alert('Successfully signed up'))
       .catch(error => console.log(error.message ))
   }
 

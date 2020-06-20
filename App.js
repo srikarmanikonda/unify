@@ -25,8 +25,9 @@ var firebaseConfig = {
       appId: "1:124667229118:web:97be36df1399fa418fffef",
       measurementId: "G-ZGWS3MZ6WJ"
     };
+    if (!firebase.apps.length){
     firebase.initializeApp(firebaseConfig);
-
+    }
 export default class AppContainer extends React.Component {
   state = {
     assetsLoaded: false,
@@ -83,6 +84,9 @@ export default class AppContainer extends React.Component {
       },
       Voting:{
         screen:voting
+      },
+      Forum:{
+        screen: chat
       }
 
     },
