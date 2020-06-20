@@ -114,7 +114,7 @@ export default class App extends React.Component {
       }
     }
     var firstlast = official.name.split(" ")
-    firstlast = firstlast[0] + " " + firstlast[firstlast.length-1]
+    firstlast = firstlast[0].length != 2 ? firstlast[0] : firstlast[1] + " " + firstlast[firstlast.length-1]
     console.log(firstlast)
     return (
       <View key={official.name} style={[styles.card, { backgroundColor: official.party == 'Democratic Party' ? '#3773BB' : official.party == 'Republican Party' ? '#B22234' : '#cbcdd1' }]}>
@@ -163,7 +163,7 @@ export default class App extends React.Component {
   }
   vote = (name, type) => {
     name = name.split(" ")
-    name = name[0] + " " + name[name.length-1]
+    name = name[0].length != 2 ? name[0] : name[1] + " " + name[name.length-1]
     var id = officials[name]
     console.log(id)
     console.log(type)

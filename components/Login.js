@@ -67,9 +67,7 @@ handleLogin = () => {
   firebase
     .auth()
     .signInWithEmailAndPassword(uname, password)
-    .then(() => this.props.navigation.navigate('Main'), global.uname = uname,   this.setState({
-      uname: '',password: ''
-    })
+    .then(() => this.props.navigation.replace('Main'), global.uname = uname,
     )
     .catch(error => console.log(error.message ))
 

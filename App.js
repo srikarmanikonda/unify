@@ -12,6 +12,7 @@ import loading from './components/Loading';
 import chat from './components/Chat';
 import bills from './components/bills'
 import voting from './components/voting'
+import { SplashScreen } from 'expo';
 
 
 import * as firebase from 'firebase';
@@ -35,7 +36,7 @@ export default class AppContainer extends React.Component {
 
   constructor() {
     //chat.observeAuth();
-
+    SplashScreen.preventAutoHide();
     super();
     Text.defaultProps = Text.defaultProps || {};
     // Ignore dynamic type scaling on iOS
