@@ -36,22 +36,30 @@ export default class App extends React.Component {
           <TouchableOpacity
             style={styles.login}
             onPress={() => this.one()}>
-            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 19.5 * wid), color: 'white' }}>Voter Registration</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 21.5 * wid), color: 'white',top:entireScreenWidth*0.07,right:entireScreenWidth*0.01  }}>Voter Registration</Text>
+            <Image style={{ width: '80%', height: '80%',right:entireScreenWidth*-0.31,top:entireScreenWidth*-0.03 }} source={require('../assets/ID.png')} resizeMode='contain'></Image>
+
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.login2}
             onPress={() => this.two()}>
-            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 19.5 * wid), color: 'white' }}>FEC Guidelines</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 21.5 * wid,), color: 'white' ,top:entireScreenWidth*0.07 }}>FEC Guidelines</Text>
+              <Image style={{ width: '80%', height: '80%',right:entireScreenWidth*-0.31,top:entireScreenWidth*-0.03 }} source={require('../assets/FEC_logo.png')} resizeMode='contain'></Image>
+
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.login3}
             onPress={() => this.three()}>
-            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem,  17.5 * wid), color: 'white' }}>Voting Assistance + accessibility</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem,  21.5 * wid), color: 'white',top:entireScreenWidth*0.07  }}>Voting Assistance</Text>
+            <Image style={{ width: '80%', height: '80%',right:entireScreenWidth*-0.31,top:entireScreenWidth*-0.03 }} source={require('../assets/hand.png')} resizeMode='contain'></Image>
+
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.login4}
             onPress={() => this.four()}>
-            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem,  19.5 * wid), color: 'white' }}>Elections near me</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem,  21.5 * wid), color: 'white' ,top:entireScreenWidth*0.07 }}>Elections near me</Text>
+            <Image style={{ width: '80%', height: '80%',right:entireScreenWidth*-0.31,top:entireScreenWidth*-0.03 }} source={require('../assets/flag.png')} resizeMode='contain'></Image>
+
           </TouchableOpacity>
         </ImageBackground>
       </View>

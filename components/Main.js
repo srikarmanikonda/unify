@@ -37,8 +37,8 @@ export default class App extends React.Component {
             <View style={{ flex: 1.5, width: '85%', marginTop: getStatusBarHeight(), justifyContent: 'center', alignItems:'center' }}>
             <CountDown
               until={11750000}
-              size={38}
-              style={{alignItems:'center', justifyContent:'center',left:wid*7,top:rem*10}}
+              size={39}
+              style={{alignItems:'center', justifyContent:'center',left:wid*11.9,top:rem*10}}
               onFinish={() => alert('Its election day! Go vote!')}
               digitStyle={{ backgroundColor: '#FFF' }}
               digitTxtStyle={{ color: 'maroon' }}
