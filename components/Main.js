@@ -22,7 +22,7 @@ export default class App extends React.Component {
   signOutUser = async () => {
     try {
         await firebase.auth().signOut();
-        this.props.navigation.navigate('Login')
+        this.props.navigation.replace('Login')
 
     } catch (e) {
         console.log(e);

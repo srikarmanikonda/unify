@@ -51,7 +51,7 @@ export default class App extends React.Component {
               style={{ width: '100%' }}
               data={this.state.bills}
               renderItem={({ item }) => (
-                <View style={{ alignItems: 'center', marginBottom: entireScreenHeight * 0.015, width: '100%', backgroundColor: item.sponsor_party == 'D' ? '#3773BB' : '#B22234', paddingBottom:entireScreenHeight*0.01 }} key={item.billId}>
+                <View style={{ alignItems: 'center', marginBottom: entireScreenHeight * 0.015, width: '100%', backgroundColor: item.sponsor_party == 'D' ? '#3773BB' : '#B22234', paddingBottom:entireScreenHeight*0.01, borderRadius:15 }} key={item.billId}>
                   <View style = {{width:'90%', alignItems:'center'}}>
                     <View style={{ borderBottomColor: 'white', borderBottomWidth: 4, }}>
                       <Text style={{ fontFamily: 'PoppinsM', fontSize: Math.min(15 * rem, 27 * wid), color: 'white', borderBottomColor: 'white' }}>Bill {item.bill_slug}</Text>
