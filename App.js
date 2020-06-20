@@ -9,6 +9,8 @@ import signup from './components/Signup';
 import main from './components/Main';
 import loading from './components/Loading';
 import bills from './components/bills'
+import voting from './components/voting'
+
 
 import * as firebase from 'firebase';
 var firebaseConfig = {
@@ -65,7 +67,11 @@ export default class AppContainer extends React.Component {
       },
       Bills:{
         screen:bills
+      },
+      Voting:{
+        screen:voting
       }
+
     },
       {
         initialRouteName: 'Login',

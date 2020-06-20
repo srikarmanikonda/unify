@@ -1,8 +1,9 @@
-import React from 'react';
-import { FlatList,StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, Dimensions, Image, TextInput, TouchableOpacity, Keyboard, ImageBackground } from 'react-native';
+import React,{ Component} from 'react';
+import { FlatList,StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, ActivityIndicator,Dimensions, Image, TextInput, TouchableOpacity, Keyboard, ImageBackground } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { List, ListItem, SearchBar } from "react-native-elements";
-
+global.data = []
+global.bills = null
 const entireScreenHeight = Dimensions.get('window').height;
 const rem = entireScreenHeight / 380;
 const entireScreenWidth = Dimensions.get('window').width;
@@ -12,122 +13,49 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      loading: false,
-      data: [],
-      page: 1,
-      seed: 1,
-      error: null,
-      refreshing: false
+      data:global.bills
     };
   }
+  _renderMyKeyExtractor=(item,index)=>item.id.toString();
 
-  componentDidMount() {
-    this.makeRemoteRequest();
-  }
-
-  makeRemoteRequest = () => {
-    const { page, seed } = this.state;
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
-    this.setState({ loading: true });
-
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          data: page === 1 ? res.results : [...this.state.data, ...res.results],
-          error: res.error || null,
-          loading: false,
-          refreshing: false
-        });
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
-      });
-  };
-
-  handleRefresh = () => {
-    this.setState(
-      {
-        page: 1,
-        seed: this.state.seed + 1,
-        refreshing: true
-      },
-      () => {
-        this.makeRemoteRequest();
-      }
-    );
-  };
-
-  handleLoadMore = () => {
-    this.setState(
-      {
-        page: this.state.page + 1
-      },
-      () => {
-        this.makeRemoteRequest();
-      }
-    );
-  };
-
-  renderSeparator = () => {
-    return (
-      <View
-        style={{
-          height: 1,
-          width: "86%",
-          backgroundColor: "#CED0CE",
-          marginLeft: "14%"
-        }}
-      />
-    );
-  };
-
-  renderHeader = () => {
-    return <SearchBar placeholder="Type Here..." lightTheme round />;
-  };
-
-  renderFooter = () => {
-    if (!this.state.loading) return null;
-
-    return (
-      <View
-        style={{
-          paddingVertical: 20,
-          borderTopWidth: 1,
-          borderColor: "#CED0CE"
-        }}
-      >
-        <ActivityIndicator animating size="large" />
-      </View>
-    );
-  };
   render() {
+    async function   url(){
+      const fetch = require("node-fetch");
+      let response = await fetch('https://api.propublica.org/congress/v1/116/house/bills/introduced.json', {
+        headers: {
+          'X-API-Key': 'WpG44Gi75vW020bamwbmW27o0d6OyAdrWcHq65uE'
+        }
+      });
+      //oh  ok got it
+      if (response.ok) { // if HTTP-status is 200-299
+        // get the response body (the method explained below)
+        let json = await response.json();
+        global.bills = json.results[0].bills
+    for(var i =0; i<bills.length;i++){
+      global.data[i] = [bills[i].short_title]
+    }
+    console.log(global.data[10])
+console.log(global.bills)
+ //fire that was not hard at all wow.
+      //how u get api key
+      } else {
+        alert("HTTP-Error: " + response.status);
+      }
+      }
+    url()
     return (
       <View style={styles.container}>
-      <ImageBackground style={styles.container} source={require('../assets/background.jpg')}>
-      </ImageBackground>
-      <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
-         <FlatList
-           data={this.state.data}
-           renderItem={({ item }) => (
-             <ListItem
-               roundAvatar
-               title={`${item.name.first} ${item.name.last}`}
-               subtitle={item.email}
-               avatar={{ uri: item.picture.thumbnail }}
-               containerStyle={{ borderBottomWidth: 0 }}
-             />
-           )}
-           keyExtractor={item => item.email}
-           ItemSeparatorComponent={this.renderSeparator}
-           ListHeaderComponent={this.renderHeader}
-           ListFooterComponent={this.renderFooter}
-           onRefresh={this.handleRefresh}
-           refreshing={this.state.refreshing}
-           onEndReached={this.handleLoadMore}
-           onEndReachedThreshold={50}
-         />
-       </List>
+      <FlatList
+style={{marginTop:200}}
+data={this.state.data}
+renderItem={({item})=>(
+<View style={{justifyContent:'center',marginBottom:10}}>
+<Text style={{backgroundColor:'blue',color:'white',padding:10,width:Dimensions.get('window').width}}>
+{global.bills.short_title}
+</Text>
+</View>
+)}
+/>
  </View>
     )
   }
