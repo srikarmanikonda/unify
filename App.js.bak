@@ -9,9 +9,12 @@ import signup from './components/Signup';
 import main from './components/Main';
 import research from './components/Research';
 import loading from './components/Loading';
+<<<<<<< HEAD
 import chat from './components/Chat';
+=======
 import bills from './components/bills'
 import voting from './components/voting'
+>>>>>>> master
 
 
 import * as firebase from 'firebase';
@@ -75,9 +78,11 @@ export default class AppContainer extends React.Component {
       Loading: {
         screen: loading
       },
+<<<<<<< HEAD
       Chat: {
         screen: chat
       },
+=======
       Bills:{
         screen:bills
       },
@@ -85,6 +90,7 @@ export default class AppContainer extends React.Component {
         screen:voting
       }
 
+>>>>>>> master
     },
       {
         initialRouteName: 'Login',
