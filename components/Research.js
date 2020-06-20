@@ -3,6 +3,7 @@ import MapView from "react-native-maps";
 import { StyleSheet, Text, View, TouchableWithoutFeedback, Dimensions, Image, TouchableOpacity, Keyboard, ImageBackground, ScrollView, Animated } from 'react-native';
 import * as Location from 'expo-location';
 import * as WebBrowser from 'expo-web-browser';
+import {officials} from './officials'
 import { LinearGradient } from 'expo-linear-gradient';
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -78,6 +79,7 @@ export default class App extends React.Component {
     Http.onreadystatechange = (e) => {
       response = Http.responseText;
       if (Http.readyState == 4) {
+        try{
         response = JSON.parse(response)
         let officials = []
         for (const item of response.offices) {
@@ -90,6 +92,10 @@ export default class App extends React.Component {
         this.setState({ officials: officials })
         console.log(officials)
       }
+      catch{
+        this.setState({officials: []})
+      }
+    }
       // Center the map on the location we just fetched.
     }
 
@@ -107,6 +113,9 @@ export default class App extends React.Component {
         var youtube = item.id
       }
     }
+    var firstlast = official.name.split(" ")
+    firstlast = firstlast[0] + " " + firstlast[firstlast.length-1]
+    console.log(firstlast)
     return (
       <View key={official.name} style={[styles.card, { backgroundColor: official.party == 'Democratic Party' ? '#3773BB' : official.party == 'Republican Party' ? '#B22234' : '#cbcdd1' }]}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -117,7 +126,7 @@ export default class App extends React.Component {
         <View style={{ flex: 0.1 }}></View>
         <View style={{ flex: 3, flexDirection: 'row' }}>
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-            <Image source={{ uri: official.photoUrl }} style={{ width: '100%', height: '100%', flex: 1 }} resizeMode="contain"></Image>
+            <Image source={{ uri: official.photoUrl != null ? official.photoUrl : officials[firstlast] == null ? official.photoUrl : 'http://bioguide.congress.gov/bioguide/photo/' + officials[firstlast].charAt(0) +'/' + officials[firstlast] + '.jpg' }} style={{ width: '100%', height: '100%', flex: 1 }} resizeMode="contain"></Image>
           </View>
           <View style={{ flex: 0.1 }}></View>
           <View style={{ flex: 1.25, height: '100%' }}>
@@ -129,7 +138,7 @@ export default class App extends React.Component {
               <TouchableOpacity onPress={async () => official.urls ? await WebBrowser.openBrowserAsync(official.urls[0]) : alert("Sorry, a website couldn't be found")}>
                 <Text style={{ fontFamily: 'PoppinsL', fontSize: Math.min(10 * rem, 18 * wid) }}>View Site</Text>
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => this.vote(official.name, type)}>
                 <Text style={{ fontFamily: 'PoppinsL', fontSize: Math.min(10 * rem, 18 * wid) }}>View Vote History</Text>
               </TouchableOpacity>
             </View>
@@ -151,6 +160,13 @@ export default class App extends React.Component {
         <View style={{ flex: 0.1 }}></View>
       </View >
     );
+  }
+  vote = (name, type) => {
+    name = name.split(" ")
+    name = name[0] + " " + name[name.length-1]
+    var id = officials[name]
+    console.log(id)
+    console.log(type)
   }
   render() {
     return (
