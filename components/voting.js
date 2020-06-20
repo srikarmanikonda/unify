@@ -23,24 +23,35 @@ export default class App extends React.Component {
   three = async () => {
     let result = await WebBrowser.openBrowserAsync('https://www.eac.gov/election-officials/voting-accessibility');
   }
+  four = async () => {
+        let result = await WebBrowser.openBrowserAsync('https://www.fec.gov/data/elections/?state=&cycle=2020&election_full=true');
+      }
+
   render() {
     return (
       <View style={styles.container}>
+
         <ImageBackground style={styles.container} source={require('../assets/background.jpg')}>
+
           <TouchableOpacity
             style={styles.login}
             onPress={() => this.one()}>
-            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 22.5 * wid), color: 'white' }}>Voter Registration</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 19.5 * wid), color: 'white' }}>Voter Registration</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.login2}
             onPress={() => this.two()}>
-            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 22.5 * wid), color: 'white' }}>FEC Guidelines</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 19.5 * wid), color: 'white' }}>FEC Guidelines</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.login3}
             onPress={() => this.three()}>
-            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 22.5 * wid), color: 'white' }}>Voting Assistance + accessibility</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem,  17.5 * wid), color: 'white' }}>Voting Assistance + accessibility</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.login4}
+            onPress={() => this.four()}>
+            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem,  19.5 * wid), color: 'white' }}>Elections near me</Text>
           </TouchableOpacity>
         </ImageBackground>
       </View>
@@ -66,7 +77,7 @@ const styles = StyleSheet.create({
     height: entireScreenHeight * 0.09,
     alignItems: "center",
     justifyContent: "center",
-    top: entireScreenHeight * -0.2
+    top: entireScreenHeight * -0.12
   },
   login2: {
     width: entireScreenWidth * 0.8,
@@ -75,7 +86,7 @@ const styles = StyleSheet.create({
     height: entireScreenHeight * 0.09,
     alignItems: "center",
     justifyContent: "center",
-    top: entireScreenHeight * 0.31
+    top: entireScreenHeight * 0.22
   },
   login3: {
     width: entireScreenWidth * 0.8,
@@ -85,5 +96,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     top: entireScreenHeight * -0.09
+  },
+  login4: {
+    width: entireScreenWidth * 0.8,
+    backgroundColor: "maroon",
+    borderRadius: 25,
+    height: entireScreenHeight * 0.09,
+    alignItems: "center",
+    justifyContent: "center",
+    top: entireScreenHeight * 0.25
   }
 });

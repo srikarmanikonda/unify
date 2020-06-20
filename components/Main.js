@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback,
 import { LinearGradient } from 'expo-linear-gradient';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Spinner from 'react-native-loading-spinner-overlay';
+import CountDown from 'react-native-countdown-component';
 
 // used for scaling
 const entireScreenHeight = Dimensions.get('window').height;
@@ -23,9 +24,20 @@ export default class App extends React.Component {
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false}>
         <ImageBackground style={styles.container} source={require('../assets/background.jpg')}>
           <View style={styles.container}>
-            <View style={{ flex: 1, width: '85%', marginTop: getStatusBarHeight(), }}>
+
+            <View style={{ flex: 1.5, width: '85%', marginTop: getStatusBarHeight(), justifyContent: 'center', alignItems:'center' }}>
+            <CountDown
+              until={11750000}
+              size={38}
+              style={{alignItems:'center', justifyContent:'center',}}
+              onFinish={() => alert('Its election day! Go vote!')}
+              digitStyle={{ backgroundColor: '#FFF' }}
+              digitTxtStyle={{ color: '#B22234' }}
+              timeToShow={['D', 'H', 'M', 'S']}
+              timeLabels={{ d: 'days', h: 'hrs', m: 'mins', s: 'secs' }}
+              timeLabelStyle={{ color: '#3773BB' }}
+            />
             </View>
-            <View style={{ flex: 0.5, width: '100%' }}></View>
             <View style={{ flex: 3, width: '90%' }}>
               <View style={{ width: '100%', flex: 1, flexDirection: 'row' }}>
                 <View style={{
@@ -71,7 +83,7 @@ export default class App extends React.Component {
                     <View
                       style={{ height: '100%', alignItems: 'center', borderRadius: 20, width: '100%', justifyContent: 'center', backgroundColor: '#B22234' }}>
                       <View style={{ flex: 0.2, width: '100%' }}></View>
-                      <View  style={{ flex: 2, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+                      <View style={{ flex: 2, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
                         <Text onPress={() => this.props.navigation.replace('Chat')} style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 22.5 * wid), color: 'white' }}>Forum</Text>
                       </View>
                       <View style={{ flex: 3, width: '100%' }}>
@@ -97,7 +109,7 @@ export default class App extends React.Component {
 
                     elevation: 8,
                   }} onPress={() => this.props.navigation.navigate('Bills')}>
-    <View
+                    <View
                       style={{ height: '100%', alignItems: 'center', borderRadius: 20, width: '100%', justifyContent: 'center', backgroundColor: '#B22234' }}>
                       <View style={{ flex: 0.2, width: '100%' }}></View>
                       <View style={{ flex: 2, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
@@ -139,10 +151,17 @@ export default class App extends React.Component {
                   </TouchableOpacity>
                 </View>
               </View>
-              <View style={{ flex: 0.05 }}></View>
+              <View style={{ flex: 0.2, width: '100%' }}>
+                <TouchableOpacity>
+              <Image style={{ width: '100%', height: '100%' }} source={require('../assets/signout.png')} resizeMode='contain'></Image>
+              </TouchableOpacity>
+              </View>
+              <View style={{ flex: 0.1, width: '100%' }}>
+                
+              </View>
             </View>
           </View>
-          </ImageBackground>
+        </ImageBackground>
       </TouchableWithoutFeedback>
     );
 
@@ -150,14 +169,14 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
-          container: {
-          width: Dimensions.get('window').width,
+  container: {
+    width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
     justifyContent: 'center',
     alignItems: 'center',
   },
   spinnerTextStyle: {
-          color: '#FFF',
+    color: '#FFF',
     top: 60
   },
 });
