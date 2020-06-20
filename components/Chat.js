@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AsyncStorage from 'react-native';
+import {Text,Bubble } from 'react-native';
 
 import * as firebase from 'firebase';
 import { GiftedChat } from 'react-native-gifted-chat';
@@ -9,7 +9,7 @@ import { View, StyleSheet } from 'react-native';
 class Chat extends Component {
   static navigationOptions = {
     
-    title: 'Hello There!',
+    title: 'Ask a Question!',
   };  // 3.
   state = {
     messages: [],
@@ -28,15 +28,15 @@ componentWillUnmount() {
 
 get user() {  // Return our name and our UID for GiftedChat to parse
   return {
-    uname:global.uname
-    , 
+    avatar:'https://kansai-resilience-forum.jp/wp-content/uploads/2019/02/IAFOR-Blank-Avatar-Image-1.jpg',
+    name:global.uname, 
+
     _id: this.uid,
 
   };
 }
 
   get ref() {
-
     return firebase.database().ref('messages');
   }// 2.
   on = callback =>
@@ -53,13 +53,12 @@ get user() {  // Return our name and our UID for GiftedChat to parse
   }
   parse = snapshot => {  // 1.
     const { timestamp: numberStamp, text, user } = snapshot.val();
-    const { key: _id } = snapshot;  // 2.
-    const timestamp = new Date(numberStamp);  // 3.
+    const { key: _id } = snapshot;  
     const message = {
       _id,
-      timestamp,
       text,
       user,
+      createdAt: new Date()
     };
    return message;
   };
@@ -68,18 +67,30 @@ get user() {  // Return our name and our UID for GiftedChat to parse
 // 2.
 
 
-get timestamp() {
-  return firebase.database.ServerValue.TIMESTAMP;
+contains(target, pattern){
+    var value = 0;
+    pattern.forEach(function(word){
+      value = value + target.includes(word);
+    });
+    return (value === 1)
 }
-
 // 3.
 send = messages => {
   for (let i = 0; i < messages.length; i++) {
-    const { text, user } = messages[i];    // 4.
+    const { text, user, createdAt } = messages[i];
+    var str = global.uname
+
+    if (this.contains(text.toLowerCase(), ['fuck','shit', 'cunt','bitch']))
+    {
+      text = "Message Has Been Censored"
+    }
+   // text = ((str).slice(0,(str).indexOf('@')) + ": " + "\n\n"  + text)
+
+    // 4.
     const message = {
       text,
       user,
-      timestamp: this.timestamp,
+      createdAt,
     };
     this.append(message);
   }
@@ -88,8 +99,10 @@ append = message => this.ref.push(message);
 render() {
   return (
     <GiftedChat
+      renderUsernameOnMessage={true}
       messages={this.state.messages}
       onSend={this.send}
+
       user={this.user}
     />
   );

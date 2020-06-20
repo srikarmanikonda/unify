@@ -91,7 +91,7 @@ export default class AppContainer extends React.Component {
 
     },
       {
-        initialRouteName: 'Login',
+        initialRouteName: 'Loading',
         headerMode: 'none'
       });
 
