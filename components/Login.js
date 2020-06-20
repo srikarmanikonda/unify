@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback,
 import { LinearGradient } from 'expo-linear-gradient';
 import Spinner from 'react-native-loading-spinner-overlay';
 import * as Google from "expo-google-app-auth";
+import * as firebase from 'firebase';
 
 const entireScreenHeight = Dimensions.get('window').height;
 const rem = entireScreenHeight / 380;
@@ -10,8 +11,7 @@ const entireScreenWidth = Dimensions.get('window').width;
 const wid = entireScreenWidth / 380;
 export default class App extends React.Component {
   state = {
-    firstname: '',
-    lastname: '',
+    password: '',
     loading: false,
     uname:''
   }
@@ -34,13 +34,8 @@ export default class App extends React.Component {
     //  console.log("LoginScreen.js.js 21 | ", result.user.givenName);
        //after Google login redirect to Profile
       var uname  = result.user.givenName + " " + result.user.familyName;
-         
           AsyncStorage.setItem('username', uname);
-          console.log(uname)
-          this.setState({ loading: false });
-          //this.props.navigation.replace('Main')
-
-          this.setState({ loading: false });
+          this.props.navigation.replace('Main')
 
    // this.props.navigation.replace("Main", {username:result.user.givenName});
 
@@ -51,6 +46,15 @@ export default class App extends React.Component {
     
 
 };
+
+handleLogin = () => {
+  const { uname, password } = this.state
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(uname, password)
+    .then(() => this.props.navigation.navigate('Main'), AsyncStorage.setItem('username', uname))
+    .catch(error => console.log(error.message ))
+}
 
 
   render() {
@@ -90,11 +94,11 @@ export default class App extends React.Component {
                     style={{ fontSize: 10 * rem, width: '95%', height: '100%', marginLeft: '5%', fontFamily: 'PoppinsL' }}
                     autoCapitalize='none'
                     autoCompleteType='off'
-                    placeholder="Username"
+                    placeholder="Email"
                     placeholderTextColor="#4F4F4F"
                     keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
-                    onChangeText={(value) => this.setState({ firstname: value })}
-                    value={this.state.username}
+                    onChangeText={(value) => this.setState({ uname: value })}
+                    value={this.state.uname}
 
                   /></View>
                 <View style={{ width: '100%', flex: 1.25 }}></View>
@@ -113,7 +117,7 @@ export default class App extends React.Component {
                     placeholder="Password"
                     placeholderTextColor="#4F4F4F"
                     keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
-                    onChangeText={(value) => this.setState({ lastname: value })}
+                    onChangeText={(value) => this.setState({ password: value })}
                     value={this.state.password}
                     secureTextEntry={true}
 
@@ -134,22 +138,28 @@ export default class App extends React.Component {
                   shadowRadius: 3.65,
 
                   elevation: 8,
-                }} onPress={() => this.props.navigation.navigate('Main')}>
+                }} onPress={() => this.handleLogin()}>
+
                   <View
                     style={{ height: '100%', alignItems: 'center', borderRadius: 30, width: '100%', justifyContent: 'center', backgroundColor: '#F3F3F3' }}>
                     <Text style={{ color: 'black', fontSize: Math.min(20 * rem, 36 * wid), textAlign: 'center', fontWeight: 'bold', fontFamily: 'PoppinsM' }}>Login</Text>
+                    
                   </View>
                   <TouchableOpacity onPress={onPress}>
                   <Text style={styles.link}>Sign in with Google</Text>
                 </TouchableOpacity>
-                </TouchableOpacity>
-                
                 <View style={{flexDirection:'row', marginTop:5*rem}}>
                 <Text style={{color: 'white', fontSize:15*wid,fontFamily:'PoppinsL', textShadowColor:'black', textShadowRadius:10, textShadowOffset:{width: -1, height: 1}}}>Don’t have an account? </Text>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Signup')}>
                   <Text style={{color: '#00FFFF', fontSize:15*wid,fontFamily:'PoppinsM', textShadowColor:'black', textShadowRadius:10, textShadowOffset:{width: -1, height: 1}}}>Sign up</Text>
                 </TouchableOpacity>
               </View>
+
+
+
+                </TouchableOpacity>
+                
+     
               </View>
               
             </View>
@@ -169,7 +179,7 @@ const styles = StyleSheet.create({
   link: {
     fontWeight: 'bold',
     color: '#ffffff',
-    fontSize:25*wid,
+    fontSize:20*wid,
     //fontFamily:'WSB',
     marginTop:'5%'
   },

@@ -7,6 +7,7 @@ import { Asset } from 'expo-asset';
 import login from './components/Login';
 import signup from './components/Signup';
 import main from './components/Main';
+import loading from './components/Loading';
 
 
 import * as firebase from 'firebase';
@@ -26,7 +27,6 @@ export default class AppContainer extends React.Component {
     assetsLoaded: false,
   };
 
-  
   constructor() {
     super();
     Text.defaultProps = Text.defaultProps || {};
@@ -59,6 +59,9 @@ export default class AppContainer extends React.Component {
       },
       Main: {
         screen: main
+      },
+      Loading: {
+        screen: loading
       },
     },
       {
