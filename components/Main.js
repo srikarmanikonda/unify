@@ -38,13 +38,13 @@ export default class App extends React.Component {
             <CountDown
               until={11750000}
               size={38}
-              style={{alignItems:'center', justifyContent:'center',}}
+              style={{alignItems:'center', justifyContent:'center',left:wid*7,top:rem*10}}
               onFinish={() => alert('Its election day! Go vote!')}
               digitStyle={{ backgroundColor: '#FFF' }}
-              digitTxtStyle={{ color: '#B22234' }}
+              digitTxtStyle={{ color: 'maroon' }}
               timeToShow={['D', 'H', 'M', 'S']}
-              timeLabels={{ d: 'days', h: 'hrs', m: 'mins', s: 'secs' }}
-              timeLabelStyle={{ color: '#3773BB' }}
+              timeLabels={{ d: 'days', h: 'hours', m: 'minutes', s: 'seconds' }}
+              timeLabelStyle={{ color: '#fff', fontWeight: 'bold' }}
             />
             </View>
             <View style={{ flex: 3, width: '90%' }}>
@@ -167,7 +167,7 @@ export default class App extends React.Component {
               </TouchableOpacity>
               </View>
               <View style={{ flex: 0.1, width: '100%' }}>
-                
+
               </View>
             </View>
           </View>
