@@ -69,8 +69,8 @@ export default class App extends React.Component {
                     <View
                       style={{ height: '100%', alignItems: 'center', borderRadius: 20, width: '100%', justifyContent: 'center', backgroundColor: '#B22234' }}>
                       <View style={{ flex: 0.2, width: '100%' }}></View>
-                      <View style={{ flex: 2, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 22.5 * wid), color: 'white' }}>Forum</Text>
+                      <View  style={{ flex: 2, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+                        <Text onPress={() => this.props.navigation.replace('Chat')} style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 22.5 * wid), color: 'white' }}>Forum</Text>
                       </View>
                       <View style={{ flex: 3, width: '100%' }}>
                         <Image style={{ width: '100%', height: '100%' }} source={require('../assets/chat.png')} resizeMode='contain'></Image>

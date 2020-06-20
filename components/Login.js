@@ -20,6 +20,8 @@ export default class App extends React.Component {
     Text.defaultProps = Text.defaultProps || {};
     // Ignore dynamic type scaling on iOS
     Text.defaultProps.allowFontScaling = false;
+    firebase.auth().onAuthStateChanged(this.onAuthStateChanged);
+
   }
 
   signInWithGoogle = async () => {
@@ -34,7 +36,8 @@ export default class App extends React.Component {
     //  console.log("LoginScreen.js.js 21 | ", result.user.givenName);
        //after Google login redirect to Profile
       var uname  = result.user.givenName + " " + result.user.familyName;
-          AsyncStorage.setItem('username', uname);
+          global.uname = uname
+          //AsyncStorage.setItem('username', uname);
           this.props.navigation.replace('Main')
 
    // this.props.navigation.replace("Main", {username:result.user.givenName});
@@ -47,12 +50,23 @@ export default class App extends React.Component {
 
 };
 
+onAuthStateChanged = user => {
+  console.log(user)
+  if (!user) {
+    try {
+      // 4.
+    } catch ({ message }) {
+      alert(message);
+    }
+  }
+  };
 handleLogin = () => {
   const { uname, password } = this.state
   firebase
     .auth()
     .signInWithEmailAndPassword(uname, password)
-    .then(() => this.props.navigation.navigate('Main'), AsyncStorage.setItem('username', uname))
+    .then(() => this.props.navigation.navigate('Main'), global.uname = uname
+    )
     .catch(error => console.log(error.message ))
 }
 
@@ -145,9 +159,7 @@ handleLogin = () => {
                     <Text style={{ color: 'black', fontSize: Math.min(20 * rem, 36 * wid), textAlign: 'center', fontWeight: 'bold', fontFamily: 'PoppinsM' }}>Login</Text>
                     
                   </View>
-                  <TouchableOpacity onPress={onPress}>
-                  <Text style={styles.link}>Sign in with Google</Text>
-                </TouchableOpacity>
+                 
                 <View style={{flexDirection:'row', marginTop:5*rem}}>
                 <Text style={{color: 'white', fontSize:15*wid,fontFamily:'PoppinsL', textShadowColor:'black', textShadowRadius:10, textShadowOffset:{width: -1, height: 1}}}>Don’t have an account? </Text>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Signup')}>
