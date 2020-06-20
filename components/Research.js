@@ -2,8 +2,8 @@ import React from 'react';
 import MapView from "react-native-maps";
 import { StyleSheet, Text, View, TouchableWithoutFeedback, Dimensions, Image, TouchableOpacity, Keyboard, ImageBackground, ScrollView, Animated } from 'react-native';
 import * as Location from 'expo-location';
+import * as WebBrowser from 'expo-web-browser';
 import { LinearGradient } from 'expo-linear-gradient';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 // used for scaling
@@ -96,6 +96,17 @@ export default class App extends React.Component {
   }
   officials = (official, type) => {
     console.log(official.photoUrl)
+    for (const item of official.channels){
+      if (item.type == 'Facebook'){
+        var facebook = item.id
+      }
+      if (item.type == 'Twitter'){
+        var twitter = item.id
+      }
+      if (item.type == 'YouTube'){
+        var youtube = item.id
+      }
+    }
     return (
       <View key={official.name} style={[styles.card, { backgroundColor: official.party == 'Democratic Party' ? '#3773BB' : official.party == 'Republican Party' ? '#B22234' : '#cbcdd1' }]}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -114,8 +125,8 @@ export default class App extends React.Component {
               <View>
                 <Text style={{ fontFamily: 'PoppinsM', fontSize: Math.min(10 * rem, 18 * wid) }}>{type}</Text>
               </View>
-              <Text style={{ fontFamily: 'PoppinsL', fontSize: Math.min(10 * rem, 18 * wid) }}>{official.phones[0]}</Text>
-              <TouchableOpacity>
+              <Text style={{ fontFamily: 'PoppinsL', fontSize: Math.min(10 * rem, 18 * wid) }}>{official.phones ? official.phones[0] : "No number found"}</Text>
+              <TouchableOpacity onPress={async () => official.urls ? await WebBrowser.openBrowserAsync(official.urls[0]) : alert("Sorry, a website couldn't be found")}>
                 <Text style={{ fontFamily: 'PoppinsL', fontSize: Math.min(10 * rem, 18 * wid) }}>View Site</Text>
               </TouchableOpacity>
               <TouchableOpacity>
@@ -123,15 +134,15 @@ export default class App extends React.Component {
               </TouchableOpacity>
             </View>
             <View style={{ flex: 1, alignSelf: 'flex-end', width: '100%', flexDirection: 'row', alignItems: 'center' }}>
-              <TouchableOpacity style={{ flex: 1, width: '100%' }}>
+              <TouchableOpacity style={{ flex: 1, width: '100%' }} onPress={async () => youtube ? await WebBrowser.openBrowserAsync('https://www.youtube.com/user/' + youtube) : alert("Sorry, a youtube profile couldn't be found")}>
                 <Image source={require('../assets/youtube.png')} style={{ width: '100%', height: '100%', flex: 1 }} resizeMode="contain"></Image>
               </TouchableOpacity>
               <View style={{ flex: 0.15 }}></View>
-              <TouchableOpacity style={{ flex: 1, width: '100%' }}>
+              <TouchableOpacity style={{ flex: 1, width: '100%' }} onPress={async () => twitter ? await WebBrowser.openBrowserAsync('https://facebook.com/' + facebook) : alert("Sorry, a facebook profile couldn't be found")}>
                 <Image source={require('../assets/facebook.png')} style={{ width: '100%', height: '100%', flex: 1 }} resizeMode="contain"></Image>
               </TouchableOpacity>
               <View style={{ flex: 0.15 }}></View>
-              <TouchableOpacity style={{ flex: 1, width: '100%' }}>
+              <TouchableOpacity style={{ flex: 1, width: '100%' }} onPress={async () => twitter ? await WebBrowser.openBrowserAsync('https://twitter.com/' + twitter) : alert("Sorry, a twitter profile couldn't be found")}>
                 <Image source={require('../assets/twitter.png')} style={{ width: '100%', height: '100%', flex: 1 }} resizeMode="contain"></Image>
               </TouchableOpacity>
             </View>
