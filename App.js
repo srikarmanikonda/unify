@@ -8,7 +8,7 @@ import login from './components/Login';
 import signup from './components/Signup';
 import main from './components/Main';
 import loading from './components/Loading';
-
+import bills from './components/bills'
 
 import * as firebase from 'firebase';
 var firebaseConfig = {
@@ -63,6 +63,9 @@ export default class AppContainer extends React.Component {
       Loading: {
         screen: loading
       },
+      Bills:{
+        screen:bills
+      }
     },
       {
         initialRouteName: 'Login',
