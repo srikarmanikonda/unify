@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Spinner from 'react-native-loading-spinner-overlay';
 import CountDown from 'react-native-countdown-component';
+import * as firebase from 'firebase';
 
 // used for scaling
 const entireScreenHeight = Dimensions.get('window').height;
@@ -18,7 +19,15 @@ export default class App extends React.Component {
     // Ignore dynamic type scaling on iOS
     Text.defaultProps.allowFontScaling = false;
   }
+  signOutUser = async () => {
+    try {
+        await firebase.auth().signOut();
+        this.props.navigation.navigate('Login')
 
+    } catch (e) {
+        console.log(e);
+    }
+}
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false}>
@@ -84,7 +93,7 @@ export default class App extends React.Component {
                       style={{ height: '100%', alignItems: 'center', borderRadius: 20, width: '100%', justifyContent: 'center', backgroundColor: '#B22234' }}>
                       <View style={{ flex: 0.2, width: '100%' }}></View>
                       <View style={{ flex: 2, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-                        <Text onPress={() => this.props.navigation.replace('Chat')} style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 22.5 * wid), color: 'white' }}>Forum</Text>
+                        <Text onPress={() => this.props.navigation.navigate('Chat')} style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 22.5 * wid), color: 'white' }}>Forum</Text>
                       </View>
                       <View style={{ flex: 3, width: '100%' }}>
                         <Image style={{ width: '100%', height: '100%' }} source={require('../assets/chat.png')} resizeMode='contain'></Image>
@@ -152,7 +161,8 @@ export default class App extends React.Component {
                 </View>
               </View>
               <View style={{ flex: 0.2, width: '100%' }}>
-                <TouchableOpacity>
+                <TouchableOpacity       onPress={() => this.signOutUser()}>
+
               <Image style={{ width: '100%', height: '100%' }} source={require('../assets/signout.png')} resizeMode='contain'></Image>
               </TouchableOpacity>
               </View>

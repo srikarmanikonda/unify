@@ -67,7 +67,9 @@ handleLogin = () => {
   firebase
     .auth()
     .signInWithEmailAndPassword(uname, password)
-    .then(() => this.props.navigation.navigate('Main'), global.uname = uname
+    .then(() => this.props.navigation.navigate('Main'), global.uname = uname,   this.setState({
+      uname: '',password: ''
+    })
     )
     .catch(error => console.log(error.message ))
 
@@ -129,15 +131,16 @@ handleLogin = () => {
                   backgroundColor:'white'
                 }}>
                   <TextInput
+                                      secureTextEntry={true}
+
                     style={{ fontSize: 10 * rem, width: '95%', height: '100%', marginLeft: '5%', fontFamily: 'PoppinsL' }}
                     autoCapitalize='none'
                     autoCompleteType='off'
                     placeholder="Password"
                     placeholderTextColor="#4F4F4F"
-                    keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
+                    //keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
                     onChangeText={(value) => this.setState({ password: value })}
                     value={this.state.password}
-                    secureTextEntry={true}
 
                   />
                 </View>
