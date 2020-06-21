@@ -5,6 +5,7 @@ import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View
 import Spinner from 'react-native-loading-spinner-overlay';
 import MapView from "react-native-maps";
 import { officials } from './officials';
+import * as Linking from 'expo-linking';
 
 // used for scaling
 const entireScreenHeight = Dimensions.get('window').height;
@@ -134,7 +135,9 @@ export default class App extends React.Component {
               <View>
                 <Text style={{ fontFamily: 'PoppinsM', fontSize: Math.min(10 * rem, 18 * wid) }}>{type}</Text>
               </View>
+              <TouchableOpacity onPress={async () => official.phones ? this._handleCall(official.phones[0]) : alert("No number found")}>
               <Text style={{ fontFamily: 'PoppinsL', fontSize: Math.min(10 * rem, 18 * wid) }}>{official.phones ? official.phones[0] : "No number found"}</Text>
+              </TouchableOpacity>
               <TouchableOpacity onPress={async () => official.urls ? await WebBrowser.openBrowserAsync(official.urls[0]) : alert("Sorry, a website couldn't be found")}>
                 <Text style={{ fontFamily: 'PoppinsL', fontSize: Math.min(10 * rem, 18 * wid) }}>View Site</Text>
               </TouchableOpacity>
@@ -199,6 +202,19 @@ export default class App extends React.Component {
       }
     }
   }
+  _handleCall = (str) => {
+    var phoneString = str.replace(/-/g, "");
+    console.log(phoneString);
+    const url = `tel:${phoneString}`;
+    
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (supported) {
+          return Linking.openURL(url)
+            .catch(() => null);
+        }
+      });
+    }
   render() {
     return (
       <View style={styles.container}>
