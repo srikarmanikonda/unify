@@ -1,10 +1,8 @@
-import React from 'react';
-import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, Dimensions, Image, TextInput, TouchableOpacity, Keyboard, ImageBackground } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
-import Spinner from 'react-native-loading-spinner-overlay';
-import CountDown from 'react-native-countdown-component';
 import * as firebase from 'firebase';
+import React from 'react';
+import { Dimensions, Image, ImageBackground, Keyboard, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import CountDown from 'react-native-countdown-component';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 // used for scaling
 const entireScreenHeight = Dimensions.get('window').height;

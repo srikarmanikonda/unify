@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import * as WebBrowser from 'expo-web-browser';
-import { FlatList, StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, ActivityIndicator, Dimensions, Image, TextInput, TouchableOpacity, Keyboard, ImageBackground } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { StyleSheet, Text, View, Dimensions, Image, TouchableOpacity, ImageBackground } from 'react-native';
 
 const entireScreenHeight = Dimensions.get('window').height;
 const rem = entireScreenHeight / 380;
@@ -24,44 +23,44 @@ export default class App extends React.Component {
     let result = await WebBrowser.openBrowserAsync('https://www.eac.gov/election-officials/voting-accessibility');
   }
   four = async () => {
-        let result = await WebBrowser.openBrowserAsync('https://www.fec.gov/data/elections/?state=&cycle=2020&election_full=true');
-      }
+    let result = await WebBrowser.openBrowserAsync('https://www.fec.gov/data/elections/?state=&cycle=2020&election_full=true');
+  }
 
   render() {
     return (
       <View style={styles.container}>
         <ImageBackground style={styles.container} source={require('../assets/background.jpg')}>
-          <View style = {{alignItems:'center', height:'50%'}}>
-        <Text style={{ fontWeight: 'bold', fontSize: Math.min(32.5 * rem, 40.5 * wid), color: 'white',top:entireScreenWidth*-0.35,right:entireScreenWidth*0.01  }}>Voter Info</Text>
+          <View style={{ alignItems: 'center', height: '50%' }}>
+            <Text style={{ fontWeight: 'bold', fontSize: Math.min(32.5 * rem, 40.5 * wid), color: 'white', top: entireScreenWidth * -0.35, right: entireScreenWidth * 0.01 }}>Voter Info</Text>
 
-          <TouchableOpacity
-            style={styles.login}
-            onPress={() => this.one()}>
-            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 21.5 * wid), color: 'white',top:entireScreenWidth*0.07,right:entireScreenWidth*0.01  }}>Voter Registration</Text>
-            <Image style={{ width: '80%', height: '80%',right:entireScreenWidth*-0.31,top:entireScreenWidth*-0.03 }} source={require('../assets/ID.png')} resizeMode='contain'></Image>
+            <TouchableOpacity
+              style={styles.login}
+              onPress={() => this.one()}>
+              <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 21.5 * wid), color: 'white', top: entireScreenWidth * 0.07, right: entireScreenWidth * 0.01 }}>Voter Registration</Text>
+              <Image style={{ width: '80%', height: '80%', right: entireScreenWidth * -0.31, top: entireScreenWidth * -0.03 }} source={require('../assets/ID.png')} resizeMode='contain'></Image>
 
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.login2}
-            onPress={() => this.two()}>
-            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 21.5 * wid,), color: 'white' ,top:entireScreenWidth*0.07 }}>FEC Guidelines</Text>
-              <Image style={{ width: '80%', height: '80%',right:entireScreenWidth*-0.31,top:entireScreenWidth*-0.03 }} source={require('../assets/FEC_logo.png')} resizeMode='contain'></Image>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.login2}
+              onPress={() => this.two()}>
+              <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 21.5 * wid,), color: 'white', top: entireScreenWidth * 0.07 }}>FEC Guidelines</Text>
+              <Image style={{ width: '80%', height: '80%', right: entireScreenWidth * -0.31, top: entireScreenWidth * -0.03 }} source={require('../assets/FEC_logo.png')} resizeMode='contain'></Image>
 
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.login3}
-            onPress={() => this.three()}>
-            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem,  21.5 * wid), color: 'white',top:entireScreenWidth*0.07  }}>Voting Assistance</Text>
-            <Image style={{ width: '80%', height: '80%',right:entireScreenWidth*-0.31,top:entireScreenWidth*-0.03 }} source={require('../assets/hand.png')} resizeMode='contain'></Image>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.login3}
+              onPress={() => this.three()}>
+              <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 21.5 * wid), color: 'white', top: entireScreenWidth * 0.07 }}>Voting Assistance</Text>
+              <Image style={{ width: '80%', height: '80%', right: entireScreenWidth * -0.31, top: entireScreenWidth * -0.03 }} source={require('../assets/hand.png')} resizeMode='contain'></Image>
 
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.login4}
-            onPress={() => this.four()}>
-            <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem,  21.5 * wid), color: 'white' ,top:entireScreenWidth*0.07 }}>Elections near me</Text>
-            <Image style={{ width: '80%', height: '80%',right:entireScreenWidth*-0.31,top:entireScreenWidth*-0.03 }} source={require('../assets/flag.png')} resizeMode='contain'></Image>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.login4}
+              onPress={() => this.four()}>
+              <Text style={{ fontWeight: 'bold', fontSize: Math.min(12.5 * rem, 21.5 * wid), color: 'white', top: entireScreenWidth * 0.07 }}>Elections near me</Text>
+              <Image style={{ width: '80%', height: '80%', right: entireScreenWidth * -0.31, top: entireScreenWidth * -0.03 }} source={require('../assets/flag.png')} resizeMode='contain'></Image>
 
-          </TouchableOpacity>
+            </TouchableOpacity>
           </View>
         </ImageBackground>
       </View>

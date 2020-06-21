@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
-import {Text,Bubble } from 'react-native';
-
 import * as firebase from 'firebase';
+import React, { Component } from 'react';
+import { StyleSheet } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { View, StyleSheet } from 'react-native';
+
 
 
 class Chat extends Component {
