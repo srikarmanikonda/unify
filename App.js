@@ -15,7 +15,7 @@ import signup from './components/Signup';
 import votehistory from './components/votehistory';
 import voting from './components/voting';
 
-
+console.disableYellowBox = true
 var firebaseConfig = {
   apiKey: "AIzaSyA6jm4u7jyD9ofrKr4D6HzElN27FKkHiUA",
   authDomain: "drivetime-ce314.firebaseapp.com",

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
+    "bad-words": "^3.0.3",
     "expo": "^37.0.12",
     "expo-google-app-auth": "^8.1.0",
     "expo-web-browser": "^8.2.1",
