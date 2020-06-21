@@ -46,7 +46,7 @@ export default class App extends React.Component {
       <ImageBackground style={styles.container} source={require('../assets/background.jpg')}>
         <View style={styles.container}>
           <View style={{ flex: 1 }}></View>
-          <View style={{ flex: 4 }}>
+          <View style={{ flex: 4, width:'90%' }}>
             <FlatList
               style={{ width: '100%' }}
               data={this.state.bills}

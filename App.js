@@ -12,6 +12,7 @@ import loading from './components/Loading';
 import chat from './components/Chat';
 import bills from './components/bills'
 import voting from './components/voting'
+import votehistory from './components/votehistory'
 import { SplashScreen } from 'expo';
 
 
@@ -48,6 +49,7 @@ export default class AppContainer extends React.Component {
   async componentDidMount() {
     await Asset.loadAsync([
       require('./assets/background.jpg'),
+      require('./assets/splash.png'),
   ]);
     await Font.loadAsync({
       'PoppinsL': require('./assets/fonts/Poppins-Light.ttf'),
@@ -88,6 +90,9 @@ export default class AppContainer extends React.Component {
       },
       Forum:{
         screen: chat
+      },
+      Votehistory:{
+        screen: votehistory
       }
 
     },

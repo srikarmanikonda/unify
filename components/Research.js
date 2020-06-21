@@ -3,7 +3,7 @@ import MapView from "react-native-maps";
 import { StyleSheet, Text, View, TouchableWithoutFeedback, Dimensions, Image, TouchableOpacity, Keyboard, ImageBackground, ScrollView, Animated } from 'react-native';
 import * as Location from 'expo-location';
 import * as WebBrowser from 'expo-web-browser';
-import {officials} from './officials'
+import { officials } from './officials'
 import { LinearGradient } from 'expo-linear-gradient';
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -22,7 +22,8 @@ export default class App extends React.Component {
     this.state = {
       mapRegion: null,
       userlocation: null,
-      officials: []
+      officials: [],
+      loading: false
     };
   }
   async componentDidMount() {
@@ -79,42 +80,42 @@ export default class App extends React.Component {
     Http.onreadystatechange = (e) => {
       response = Http.responseText;
       if (Http.readyState == 4) {
-        try{
-        response = JSON.parse(response)
-        let officials = []
-        for (const item of response.offices) {
-          if (item.name == 'U.S. Senator' || item.name == 'U.S. Representative') {
-            for (const indice of item.officialIndices) {
-              officials.push([response.officials[indice], item.name])
+        try {
+          response = JSON.parse(response)
+          let officials = []
+          for (const item of response.offices) {
+            if (item.name == 'U.S. Senator' || item.name == 'U.S. Representative') {
+              for (const indice of item.officialIndices) {
+                officials.push([response.officials[indice], item.name])
+              }
             }
           }
+          this.setState({ officials: officials })
+          console.log(officials)
         }
-        this.setState({ officials: officials })
-        console.log(officials)
+        catch{
+          this.setState({ officials: [] })
+        }
       }
-      catch{
-        this.setState({officials: []})
-      }
-    }
       // Center the map on the location we just fetched.
     }
 
   }
   officials = (official, type) => {
     console.log(official.photoUrl)
-    for (const item of official.channels){
-      if (item.type == 'Facebook'){
+    for (const item of official.channels) {
+      if (item.type == 'Facebook') {
         var facebook = item.id
       }
-      if (item.type == 'Twitter'){
+      if (item.type == 'Twitter') {
         var twitter = item.id
       }
-      if (item.type == 'YouTube'){
+      if (item.type == 'YouTube') {
         var youtube = item.id
       }
     }
     var firstlast = official.name.split(" ")
-    firstlast = firstlast[0].length != 2 ? firstlast[0] : firstlast[1] + " " + firstlast[firstlast.length-1]
+    firstlast = (firstlast[0].length != 2 ? firstlast[0] : firstlast[1]) + " " + firstlast[firstlast.length - 1]
     console.log(firstlast)
     return (
       <View key={official.name} style={[styles.card, { backgroundColor: official.party == 'Democratic Party' ? '#3773BB' : official.party == 'Republican Party' ? '#B22234' : '#cbcdd1' }]}>
@@ -126,7 +127,7 @@ export default class App extends React.Component {
         <View style={{ flex: 0.1 }}></View>
         <View style={{ flex: 3, flexDirection: 'row' }}>
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-            <Image source={{ uri: official.photoUrl != null ? official.photoUrl : officials[firstlast] == null ? official.photoUrl : 'http://bioguide.congress.gov/bioguide/photo/' + officials[firstlast].charAt(0) +'/' + officials[firstlast] + '.jpg' }} style={{ width: '100%', height: '100%', flex: 1 }} resizeMode="contain"></Image>
+            <Image source={{ uri: official.photoUrl != null ? official.photoUrl : officials[firstlast] == null ? official.photoUrl : 'http://bioguide.congress.gov/bioguide/photo/' + officials[firstlast].charAt(0) + '/' + officials[firstlast] + '.jpg' }} style={{ width: '100%', height: '100%', flex: 1 }} resizeMode="contain"></Image>
           </View>
           <View style={{ flex: 0.1 }}></View>
           <View style={{ flex: 1.25, height: '100%' }}>
@@ -138,7 +139,7 @@ export default class App extends React.Component {
               <TouchableOpacity onPress={async () => official.urls ? await WebBrowser.openBrowserAsync(official.urls[0]) : alert("Sorry, a website couldn't be found")}>
                 <Text style={{ fontFamily: 'PoppinsL', fontSize: Math.min(10 * rem, 18 * wid) }}>View Site</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => this.vote(official.name, type)}>
+              <TouchableOpacity onPress={() => this.vote(official.name, official.name)}>
                 <Text style={{ fontFamily: 'PoppinsL', fontSize: Math.min(10 * rem, 18 * wid) }}>View Vote History</Text>
               </TouchableOpacity>
             </View>
@@ -161,23 +162,52 @@ export default class App extends React.Component {
       </View >
     );
   }
-  vote = (name, type) => {
+  vote = async (name, offname) => {
     name = name.split(" ")
-    if (name.length == 3){
-    name = name[0].length != 2 ? name[0] : name[1] + " " + name[name.length-1]
-    console.log(name[0])
+    console.log(name)
+    if (name.length == 3) {
+      name = (name[0].length != 2 ? name[0] : name[1]) + " " + name[name.length - 1]
     }
-    else{
+    else {
       name = name[0] + " " + name[1]
     }
     var id = officials[name]
-    console.log(id)
-    console.log(name)
+    if (id == null) {
+      alert("Sorry, unable to retrieve voting history for this official.")
+    }
+    else {
+      this.setState({loading:true})
+      let response = await fetch('https://api.propublica.org/congress/v1/members/' + id + '/votes.json', {
+        headers: {
+          'X-API-Key': 'WpG44Gi75vW020bamwbmW27o0d6OyAdrWcHq65uE'
+        }
+      });
+      if (response.ok) { // if HTTP-status is 200-299
+        // get the response body (the method explained below)
+        let json = await response.json();
+        console.log(json)
+        if (json.results){
+        global.votes = json.results[0].votes;
+        global.officialname = offname
+        console.log(global.officialname)
+        this.setState({loading: false})
+        this.props.navigation.navigate('Votehistory')
+        }
+        else{
+          alert("Sorry, unable to retrieve voting history for this official.")
+        }
+
+      }
+    }
   }
   render() {
     return (
       <View style={styles.container}>
-
+        <Spinner
+          visible={this.state.loading}
+          textContent={'Getting voting history...'}
+          textStyle={styles.spinnerTextStyle}
+        />
         <MapView
           ref={map => this.map = map}
           initialRegion={this.state.mapRegion}
