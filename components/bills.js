@@ -45,7 +45,11 @@ export default class App extends React.Component {
     return (
       <ImageBackground style={styles.container} source={require('../assets/background.jpg')}>
         <View style={styles.container}>
-          <View style={{ flex: 1 }}></View>
+          <View style={{ flex: 1, width:'100%', justifyContent:'center', alignItems:'center' }}>
+            <View style = {{borderBottomColor: 'white', borderBottomWidth: 4, alignItems:'center' }}>
+            <Text style = {{color:'white', fontFamily:'PoppinsM', fontSize:Math.min(rem*20,wid*36)}}>Recent Bills</Text>
+            </View>
+          </View>
           <View style={{ flex: 4, width:'90%' }}>
             <FlatList
               style={{ width: '100%' }}
