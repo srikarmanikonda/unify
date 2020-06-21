@@ -78,14 +78,14 @@ send = messages => {
   for (let i = 0; i < messages.length; i++) {
     const { text, user, createdAt } = messages[i];
     var str = global.uname
-
-    if (this.contains(text.toLowerCase(), ['fuck','shit', 'cunt','bitch']))
+    var Filter = require('bad-words'),
+    filter = new Filter();
+    var temp = filter.clean(text);
+    if (temp != text)
     {
       text = "Message Has Been Censored"
     }
-   // text = ((str).slice(0,(str).indexOf('@')) + ": " + "\n\n"  + text)
 
-    // 4.
     const message = {
       text,
       user,

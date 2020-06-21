@@ -226,6 +226,15 @@ export default class App extends React.Component {
             this.officials(data[0], data[1])
           ))}
         </ScrollView>
+        <ScrollView style={{ position: "absolute", top: entireScreenHeight * 0.93, left: 0, right: 0, height: 0.07 * entireScreenHeight }} scrollEnabled={false}>
+            <View style={{ height: entireScreenHeight * 0.07, width: entireScreenWidth, alignItems: 'center', flexDirection: 'row' }}>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity style={{ marginTop: entireScreenHeight * 0.005 }} onPress={() => this.props.navigation.navigate('Main')}>
+                  <Text style={{ fontSize: Math.min(rem * 15, wid * 27), fontFamily: 'PoppinsL' }}>Home</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ScrollView>
       </View>
     );
 
