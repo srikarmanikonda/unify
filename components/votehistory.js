@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, ActivityIndicator, Dimensions, Image, TextInput, TouchableOpacity, Keyboard, ImageBackground } from 'react-native';
-import * as WebBrowser from 'expo-web-browser';
-import { LinearGradient } from 'expo-linear-gradient';
-import { List, ListItem, SearchBar } from "react-native-elements";
+import React from 'react';
+import { Dimensions, FlatList, ImageBackground, StyleSheet, Text, View } from 'react-native';
+
 const entireScreenHeight = Dimensions.get('window').height;
 const rem = entireScreenHeight / 380;
 const entireScreenWidth = Dimensions.get('window').width;
 const wid = entireScreenWidth / 380;
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -20,10 +19,10 @@ export default class App extends React.Component {
     return (
       <ImageBackground style={styles.container} source={require('../assets/background.jpg')}>
         <View style={styles.container}>
-          <View style={{ flex: 1, alignItems:'center', justifyContent:'center'}}>
-            <View style = {{borderBottomColor: 'white', borderBottomWidth: 4, alignItems:'center' }}>
-            <Text style = {{color:'white', fontFamily:'PoppinsM', fontSize:Math.min(rem*10,wid*18)}}>Voting history for</Text>
-            <Text style = {{color:'white', fontFamily:'PoppinsM', fontSize:Math.min(rem*15,wid*27)}}>{global.officialname}</Text>
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ borderBottomColor: 'white', borderBottomWidth: 4, alignItems: 'center' }}>
+              <Text style={{ color: 'white', fontFamily: 'PoppinsM', fontSize: Math.min(rem * 10, wid * 18) }}>Voting history for</Text>
+              <Text style={{ color: 'white', fontFamily: 'PoppinsM', fontSize: Math.min(rem * 15, wid * 27) }}>{global.officialname}</Text>
             </View>
           </View>
           <View style={{ flex: 4, width: '90%' }}>

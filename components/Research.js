@@ -1,11 +1,10 @@
-import React from 'react';
-import MapView from "react-native-maps";
-import { StyleSheet, Text, View, TouchableWithoutFeedback, Dimensions, Image, TouchableOpacity, Keyboard, ImageBackground, ScrollView, Animated } from 'react-native';
 import * as Location from 'expo-location';
 import * as WebBrowser from 'expo-web-browser';
-import { officials } from './officials'
-import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
+import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import MapView from "react-native-maps";
+import { officials } from './officials';
 
 // used for scaling
 const entireScreenHeight = Dimensions.get('window').height;

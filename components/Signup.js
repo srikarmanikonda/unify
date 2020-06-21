@@ -1,8 +1,7 @@
-import React,{Component} from 'react';
-import { StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, Dimensions, Image, TextInput, TouchableOpacity, Keyboard, ImageBackground } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import Spinner from 'react-native-loading-spinner-overlay';
 import * as firebase from 'firebase';
+import React from 'react';
+import { Dimensions, Image, ImageBackground, Keyboard, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 // used for scaling
 const entireScreenHeight = Dimensions.get('window').height;

@@ -1,8 +1,6 @@
-import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback, ActivityIndicator, Dimensions, Image, TextInput, TouchableOpacity, Keyboard, ImageBackground } from 'react-native';
+import React from 'react';
+import { FlatList, StyleSheet, Text, View, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
-import { LinearGradient } from 'expo-linear-gradient';
-import { List, ListItem, SearchBar } from "react-native-elements";
 const entireScreenHeight = Dimensions.get('window').height;
 const rem = entireScreenHeight / 380;
 const entireScreenWidth = Dimensions.get('window').width;
@@ -45,28 +43,28 @@ export default class App extends React.Component {
     return (
       <ImageBackground style={styles.container} source={require('../assets/background.jpg')}>
         <View style={styles.container}>
-          <View style={{ flex: 1, width:'100%', justifyContent:'center', alignItems:'center' }}>
-            <View style = {{borderBottomColor: 'white', borderBottomWidth: 4, alignItems:'center' }}>
-            <Text style = {{color:'white', fontFamily:'PoppinsM', fontSize:Math.min(rem*20,wid*36)}}>Recent Bills</Text>
+          <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ borderBottomColor: 'white', borderBottomWidth: 4, alignItems: 'center' }}>
+              <Text style={{ color: 'white', fontFamily: 'PoppinsM', fontSize: Math.min(rem * 20, wid * 36) }}>Recent Bills</Text>
             </View>
           </View>
-          <View style={{ flex: 4, width:'90%' }}>
+          <View style={{ flex: 4, width: '90%' }}>
             <FlatList
               style={{ width: '100%' }}
               data={this.state.bills}
               renderItem={({ item }) => (
-                <View style={{ alignItems: 'center', marginBottom: entireScreenHeight * 0.015, width: '100%', backgroundColor: item.sponsor_party == 'D' ? '#3773BB' : '#B22234', paddingBottom:entireScreenHeight*0.01, borderRadius:15 }} key={item.billId}>
-                  <View style = {{width:'90%', alignItems:'center'}}>
+                <View style={{ alignItems: 'center', marginBottom: entireScreenHeight * 0.015, width: '100%', backgroundColor: item.sponsor_party == 'D' ? '#3773BB' : '#B22234', paddingBottom: entireScreenHeight * 0.01, borderRadius: 15 }} key={item.billId}>
+                  <View style={{ width: '90%', alignItems: 'center' }}>
                     <View style={{ borderBottomColor: 'white', borderBottomWidth: 4, }}>
                       <Text style={{ fontFamily: 'PoppinsM', fontSize: Math.min(15 * rem, 27 * wid), color: 'white', borderBottomColor: 'white' }}>Bill {item.bill_slug}</Text>
                     </View>
-                    <View style = {{width:'100%'}}>
+                    <View style={{ width: '100%' }}>
                       <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>Introduced on: {item.introduced_date}</Text>
                       <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>Introduced by: {item.sponsor_title} {item.sponsor_name}, {item.sponsor_state} - {item.sponsor_party}</Text>
                       <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>Purpose:</Text>
                       <Text style={{ color: 'white' }}>{item.short_title}</Text>
                       <TouchableOpacity onPress={async () => item.govtrack_url ? await WebBrowser.openBrowserAsync(item.govtrack_url) : alert("Sorry, a website couldn't be found")}>
-                      <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>More Info</Text>
+                        <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>More Info</Text>
                       </TouchableOpacity>
                     </View>
                   </View>

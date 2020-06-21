@@ -1,7 +1,6 @@
-import React from "react";
-import { View, Text, ActivityIndicator, StyleSheet, Image, } from "react-native";
-import { SplashScreen } from 'expo';
 import * as firebase from "firebase";
+import React from "react";
+import { Image, StyleSheet, View } from "react-native";
 
 export default class Loading extends React.Component {
   componentDidMount() {
