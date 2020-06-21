@@ -12,59 +12,49 @@ export default class App extends React.Component {
     super(props);
     //I shabatted rahul if u see this in the morining please help. idk what im even doing in terms of this
     this.state = {
-      bills: []
+      votes: global.votes
     };
   }
-  _renderMyKeyExtractor = (item, index) => item.id.toString();
 
-  componentDidMount() {
-    this.url()
-  }
-  url = async () => {
-    let response = await fetch('https://api.propublica.org/congress/v1/116/house/bills/introduced.json', {
-      headers: {
-        'X-API-Key': 'WpG44Gi75vW020bamwbmW27o0d6OyAdrWcHq65uE'
-      }
-    });
-    //oh  ok got it
-    if (response.ok) { // if HTTP-status is 200-299
-      // get the response body (the method explained below)
-      let json = await response.json();
-      var bills = json.results[0].bills
-      var data = []
-      for (var i = 0; i < bills.length; i++) {
-        data.push(bills[i])
-      }
-      this.setState({ bills: data })
-      console.log(bills)
-    } else {
-      alert("HTTP-Error: " + response.status);
-    }
-  }
   render() {
     return (
       <ImageBackground style={styles.container} source={require('../assets/background.jpg')}>
         <View style={styles.container}>
-          <View style={{ flex: 1 }}></View>
-          <View style={{ flex: 4 }}>
+          <View style={{ flex: 1, alignItems:'center', justifyContent:'center'}}>
+            <View style = {{borderBottomColor: 'white', borderBottomWidth: 4, alignItems:'center' }}>
+            <Text style = {{color:'white', fontFamily:'PoppinsM', fontSize:Math.min(rem*10,wid*18)}}>Voting history for</Text>
+            <Text style = {{color:'white', fontFamily:'PoppinsM', fontSize:Math.min(rem*15,wid*27)}}>{global.officialname}</Text>
+            </View>
+          </View>
+          <View style={{ flex: 4, width: '90%' }}>
             <FlatList
               style={{ width: '100%' }}
-              data={this.state.bills}
+              data={this.state.votes}
               renderItem={({ item }) => (
-                <View style={{ alignItems: 'center', marginBottom: entireScreenHeight * 0.015, width: '100%', backgroundColor: item.sponsor_party == 'D' ? '#3773BB' : '#B22234', paddingBottom:entireScreenHeight*0.01 }} key={item.billId}>
-                  <View style = {{width:'90%', alignItems:'center'}}>
-                    <View style={{ borderBottomColor: 'white', borderBottomWidth: 4, }}>
-                      <Text style={{ fontFamily: 'PoppinsM', fontSize: Math.min(15 * rem, 27 * wid), color: 'white', borderBottomColor: 'white' }}>Bill {item.bill_slug}</Text>
+                <View style={{ marginBottom: entireScreenHeight * 0.015, width: '100%', flexDirection: 'row', paddingBottom: entireScreenHeight * 0.01 }}>
+                  <View style={{ alignItems: 'center', backgroundColor: 'grey', borderRadius: 15, flex: 3 }} key={item.billId}>
+                    <View style={{ width: '90%', alignItems: 'center', }}>
+                      <View style={{ borderBottomColor: 'white', borderBottomWidth: 4, }}>
+                        <Text style={{ fontFamily: 'PoppinsM', fontSize: Math.min(15 * rem, 27 * wid), color: 'white', borderBottomColor: 'white' }}>Bill {item.bill.bill_id}</Text>
+                      </View>
+                      <View style={{ width: '100%' }}>
+                        <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>Voted on: {item.date}</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                          <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>Vote: </Text>
+                          <Text style={{ color: item.position == 'Yes' ? 'green' : 'red', marginTop: '2%', fontFamily: 'PoppinsM' }}>{item.position.toUpperCase()}</Text>
+                        </View>
+                        <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>Votes:</Text>
+                        <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>  Yes: {item.total.yes}</Text>
+                        <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>  No: {item.total.no}</Text>
+                        <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>  Abstain: {item.total.not_voting}</Text>
+                        <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>Purpose:</Text>
+                        <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsL' }}>{item.bill.title == null ? item.description : item.bill.title}</Text>
+                        <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>Roll Call #: {item.roll_call}</Text>
+                        <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>Result: {item.result}</Text>
+                        <Text style={{ color: 'white' }}>{item.short_title}</Text>
+                      </View>
                     </View>
-                    <View style = {{width:'100%'}}>
-                      <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>Introduced on: {item.introduced_date}</Text>
-                      <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>Introduced by: {item.sponsor_title} {item.sponsor_name}, {item.sponsor_state} - {item.sponsor_party}</Text>
-                      <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>Purpose:</Text>
-                      <Text style={{ color: 'white' }}>{item.short_title}</Text>
-                      <TouchableOpacity onPress={async () => item.govtrack_url ? await WebBrowser.openBrowserAsync(item.govtrack_url) : alert("Sorry, a website couldn't be found")}>
-                      <Text style={{ color: 'white', marginTop: '2%', fontFamily: 'PoppinsM' }}>More Info</Text>
-                      </TouchableOpacity>
-                    </View>
+
                   </View>
                 </View>
               )}
