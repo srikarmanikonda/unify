@@ -30,8 +30,8 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-
         <ImageBackground style={styles.container} source={require('../assets/background.jpg')}>
+        <Text style={{ fontWeight: 'bold', fontSize: Math.min(32.5 * rem, 40.5 * wid), color: 'white',top:entireScreenWidth*-0.35,right:entireScreenWidth*0.01  }}>Voter Registration</Text>
 
           <TouchableOpacity
             style={styles.login}
