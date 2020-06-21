@@ -31,6 +31,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <ImageBackground style={styles.container} source={require('../assets/background.jpg')}>
+          <View style = {{alignItems:'center', height:'50%'}}>
         <Text style={{ fontWeight: 'bold', fontSize: Math.min(32.5 * rem, 40.5 * wid), color: 'white',top:entireScreenWidth*-0.35,right:entireScreenWidth*0.01  }}>Voter Info</Text>
 
           <TouchableOpacity
@@ -61,6 +62,7 @@ export default class App extends React.Component {
             <Image style={{ width: '80%', height: '80%',right:entireScreenWidth*-0.31,top:entireScreenWidth*-0.03 }} source={require('../assets/flag.png')} resizeMode='contain'></Image>
 
           </TouchableOpacity>
+          </View>
         </ImageBackground>
       </View>
 

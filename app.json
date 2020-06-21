@@ -33,7 +33,12 @@
     },
     "android": {
       "package": "com.rguptavh.unify",
-      "versionCode": 1
+      "versionCode": 1,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAANz_JQxB9Al5eJPsGMkUyY6g_RpbqNcY"
+        }
+      }
     }
   }
 }

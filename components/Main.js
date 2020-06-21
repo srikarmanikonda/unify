@@ -34,11 +34,14 @@ export default class App extends React.Component {
         <ImageBackground style={styles.container} source={require('../assets/background.jpg')}>
           <View style={styles.container}>
 
-            <View style={{ flex: 1.5, width: '85%', marginTop: getStatusBarHeight(), justifyContent: 'center', alignItems:'center' }}>
+            <View style={{ flex: 1.5, width: '100%', marginTop: getStatusBarHeight(), justifyContent: 'center', alignItems:'center' }}>
+              <View style = {{}}>
+                <Text style = {{fontFamily:'PoppinsM', color:'white', fontSize:wid*20, marginBottom:'2%'}}>Time to Election Day</Text>
+              </View>
             <CountDown
               until={11750000}
               size={39}
-              style={{alignItems:'center', justifyContent:'center',left:wid*11.9,top:rem*10}}
+              style={{alignItems:'center', justifyContent:'center'}}
               onFinish={() => alert('Its election day! Go vote!')}
               digitStyle={{ backgroundColor: '#FFF' }}
               digitTxtStyle={{ color: 'maroon' }}
